@@ -144,4 +144,276 @@ const Q = [
 ["D","新しい環境に変わることについては?",["できれば安定した環境を保ちたい","変化があった方がむしろ楽しい"]],
 ["D","未経験のことに誘われたら?",["まず不安要素を確認したくなる","とりあえずやってみたくなる"]],
 ["D","将来の計画の立て方は?",["リスクを避けた堅実な計画を好む","多少のリスクは織り込んで攻める計画を好む"]],
-["D","初めての店や商品を選ぶ時は?",["評
+["D","初めての店や商品を選ぶ時は?",["評判を調べてから選ぶ","直感で選んでみることが多い"]],
+["D","大きな決断をする時に重視するのは?",["失敗しない確実さ","得られる可能性の大きさ"]],
+["D","仕事や作業で新しいやり方を試すことについては?",["実績のあるやり方を優先したい","新しいやり方を積極的に試したい"]],
+["D","予定のない自由な一日ができたら?",["だいたい過ごし方を決めておきたい","その場のノリで決めたい"]],
+];
+const NONE = "いずれも当てはまらない";
+const TYPES = {
+"0-0-0":{name:"ゼフィラ",koku:"第七刻"},
+"0-0-1":{name:"クロヴァン",koku:"第二刻"},
+"0-0-2":{name:"ミストーラ",koku:"第十一刻"},
+"0-1-0":{name:"ラクシード",koku:"第四刻"},
+"0-1-1":{name:"ヴェルニク",koku:"第九刻"},
+"0-1-2":{name:"ソラティス",koku:"第一刻"},
+"1-0-0":{name:"ノヴァリム",koku:"第六刻"},
+"1-0-1":{name:"ティグレア",koku:"第十二刻"},
+"1-0-2":{name:"クレシュタ",koku:"第五刻"},
+"1-1-0":{name:"アルヴィード",koku:"第十刻"},
+"1-1-1":{name:"パルセナ",koku:"第三刻"},
+"1-1-2":{name:"ヨルグリス",koku:"第八刻"}
+};
+
+const API_BASE = "https://jiko-kasetsu-backend.aclasst529.workers.dev";
+function getSessionId(){
+  let sid = localStorage.getItem("jikokasetsu_sid");
+  if(!sid){ sid = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())+Math.random()); localStorage.setItem("jikokasetsu_sid", sid); }
+  return sid;
+}
+async function postJSON(path, body){
+  if(!API_BASE) return;
+  try{
+    await fetch(API_BASE + path, {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(body)});
+  }catch(e){}
+}
+
+const KEY = "jikokasetsu_v1";
+function loadState(){
+  try{ const s = JSON.parse(localStorage.getItem(KEY)); if(s) return s; }catch(e){}
+  const order = [...Array(Q.length).keys()];
+  for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]];}
+  return {order, answers:{}, pos:0};
+}
+function saveState(s){ try{ localStorage.setItem(KEY, JSON.stringify(s)); }catch(e){} }
+let state = loadState();
+
+function render(){
+  const app = document.getElementById('app');
+  const total = Q.length;
+  const answered = Object.keys(state.answers).length;
+  if(answered >= total){ renderResult(app); return; }
+  if(state.pos % 10 === 0 && Object.keys(state.answers).length === state.pos){
+    renderSessionGate(app);
+    return;
+  }
+  renderQuestion(app);
+}
+
+function renderSessionGate(app){
+  const session = Math.floor(state.pos/10)+1;
+  app.innerHTML = `
+    <div class="titlerow"><span class="stamp">自</span><h1>自己仮説</h1></div>
+    <div class="brushline"></div>
+    <p class="lede">言語化されていなかった自分の傾向に、状況判断を通じて近づく仮説ツール。</p>
+    <div class="pillrow"><span class="pill">全60問</span><span class="pill">10問 × 6セッション</span><span class="pill">結果は自分だけ閲覧可</span></div>
+    ${state.pos===0 ? '<p class="foot" style="margin-bottom:16px;"><a href="#" onclick="testConnection(event)" style="color:var(--accent);">接続テストを送信する(動作確認用)</a> <span id="testresult"></span></p>' : ''}
+    <div class="card">
+      <div class="qhead">セッション ${session} / 6</div>
+      <p class="qtext" style="margin-bottom:14px;">${state.pos===0 ? "直感で、深く考えすぎずに答えてください。途中で閉じても、続きから再開できます。" : "続きから再開します。"}</p>
+      <button class="btn" onclick="startSession()">この10問を始める</button>
+    </div>
+    <p class="foot">これは検証段階の仮説的な診断です。精度は今後の回答フィードバックによって更新されていく予定で、断定的な結果ではありません。</p>
+  `;
+}
+async function testConnection(e){
+  e.preventDefault();
+  const el = document.getElementById('testresult');
+  el.textContent = '送信中...';
+  if(!API_BASE){ el.textContent = 'API_BASE未設定'; return; }
+  try{
+    const res = await fetch(API_BASE + "/submit", {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({
+        session_id: getSessionId(), type_code: "TEST",
+        axis_bin:{A:0,B:0,C:0,D:0},
+        scores:{A:[1,0],B:[1,0],C:[1,0,0],D:[1,0]}
+      })
+    });
+    el.textContent = res.ok ? '成功しました' : ('失敗: ' + res.status);
+  }catch(err){ el.textContent = '通信エラー: ' + err; }
+}
+function startSession(){ render2(); }
+function render2(){ renderQuestionForce(); }
+function renderQuestionForce(){ renderQuestion(document.getElementById('app')); }
+
+function renderQuestion(app){
+  const idx = state.order[state.pos];
+  const [axis, text, opts] = Q[idx];
+  const options = opts ? opts.slice() : [];
+  const total = Q.length;
+  app.innerHTML = `
+    <div class="bar"><i style="width:${(state.pos/total*100).toFixed(1)}%"></i></div>
+    <div class="seal">問 ${state.pos+1} / ${total}</div>
+    <div class="card qcard">
+      <p class="qtext">${text}</p>
+      <div id="opts"></div>
+    </div>
+  `;
+  const optsEl = app.querySelector('#opts');
+  const kanjiNum = ["一","二","三"];
+  options.forEach((label, i)=>{
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.innerHTML = `<span class="optnum">${kanjiNum[i]||i+1}</span><span>${label}</span>`;
+    b.onclick = ()=> answer(idx, axis, i);
+    optsEl.appendChild(b);
+  });
+  const noneBtn = document.createElement('button');
+  noneBtn.className = 'opt none'; noneBtn.textContent = NONE;
+  noneBtn.onclick = ()=> answer(idx, axis, null);
+  optsEl.appendChild(noneBtn);
+}
+
+function answer(idx, axis, value){
+  state.answers[idx] = {axis, value};
+  state.pos += 1;
+  saveState(state);
+  render();
+}
+
+function computeScores(){
+  const sums = {A:[0,0], B:[0,0], C:[0,0,0], D:[0,0]};
+  Q.forEach((q, idx)=>{
+    const a = state.answers[idx];
+    if(!a || a.value===null) return;
+    if(a.axis==="C") sums.C[a.value]++;
+    else sums[a.axis][a.value]++;
+  });
+  return sums;
+}
+
+const AXIS_TEXT = {
+  A:{
+    0:["一人の時間の方が、多少は回復につながりやすいタイプです。",
+       "一人の時間を確保できないと、他のことでは埋め合わせが効きにくい傾向があります。予定を詰め込んだ週の後半は、先に一人の時間を空けておくと消耗を防ぎやすくなります。",
+       "一人の時間がないと、他のどんな手段を使っても消耗が抜けにくいタイプです。予定を詰め込んだ週の後半は、意識的に一人の時間を確保する必要があります。"],
+    1:["一人でいるより、誰かと過ごす方が多少は回復につながりやすいタイプです。",
+       "疲れている時ほど、あえて誰かと過ごす方が回復に向かいやすい傾向があります。一人にこもり続けると、かえって消耗が長引くことがあります。",
+       "一人にこもるより、信頼できる相手と過ごす方が明らかに早く回復するタイプです。ただし相手を選ばずに人と会うと、逆に消耗が長引くこともあります。"]
+  },
+  B:{
+    0:["評価されない状況でも、多少は自分の納得感だけで動き続けられます。",
+       "自分の中で納得できていれば、評価がなくても動き続けられる傾向があります。ただ、周囲からのフィードバックが長く途絶えると、方向性を見失いやすい面もあります。",
+       "他人からの評価がほとんどなくても、自分の納得感だけで前に進み続けられるタイプです。その分、自分の物差しがずれていても気づきにくいという弱点も抱えています。"],
+    1:["自分の考えより先に、周囲の見方が多少気になりやすい傾向があります。",
+       "自分がどう思うかより先に、周囲からどう見られているかが判断の軸になりやすい傾向があります。信頼できる相手から率直な評価を意識的に取りに行くと、安定しやすくなります。",
+       "周囲からの評価が判断のほとんどを占めるタイプです。信頼できる相手から率直な評価を意識的に取りに行かないと、方向を見失いやすくなります。"]
+  },
+  C:{
+    0:["結論が出ない状態が続くと、多少は居心地の悪さを感じるタイプです。",
+       "結論が出ないまま話が続くと強い居心地の悪さを感じるタイプです。早めに仮の結論を置いてから動く方が、あなたには合っています。"],
+    1:["はっきりしない状態のままでも、特に支障なく前に進められる傾向があります。",
+       "白黒つけないまま長く保留し続けても、支障を感じないタイプです。むしろ無理に結論を急かされる方が、ペースを乱されます。"],
+    2:["矛盾や未確定な状態を、多少面白がれる傾向があります。",
+       "矛盾や未確定な状態そのものを積極的に面白がれるタイプです。ただし周囲は早く結論を求めていることも多く、相手のペースに合わせる意識が必要になる場面もあります。"]
+  }
+};
+function tier2(ratio){ return ratio>=0.75 ? 2 : (ratio>=0.6 ? 1 : 0); }
+function tier3(ratio){ return ratio>=0.55 ? 1 : 0; }
+
+function renderResult(app){
+  const s = computeScores();
+  const aTotal = s.A[0]+s.A[1] || 1;
+  const bTotal = s.B[0]+s.B[1] || 1;
+  const cTotal = s.C[0]+s.C[1]+s.C[2] || 1;
+  const dTotal = s.D[0]+s.D[1] || 1;
+
+  const aBin = s.A[1]/aTotal >= 0.5 ? 1 : 0;
+  const bBin = s.B[1]/bTotal >= 0.5 ? 1 : 0;
+  const cVals=[s.C[0]/cTotal, s.C[1]/cTotal, s.C[2]/cTotal];
+  const cBin = cVals.indexOf(Math.max(...cVals));
+  const dBin = s.D[1]/dTotal >= 0.5 ? 1 : 0; // 非表示・相性計算専用
+
+  const aR = s.A[aBin]/aTotal, bR = s.B[bBin]/bTotal, cR = cVals[cBin];
+  const textA = AXIS_TEXT.A[aBin][tier2(aR)];
+  const textB = AXIS_TEXT.B[bBin][tier2(bR)];
+  const textC = AXIS_TEXT.C[cBin][tier3(cR)];
+
+  const t = TYPES[`${aBin}-${bBin}-${cBin}`];
+
+  if(!state.submitted){
+    state.submitted = true; saveState(state);
+    postJSON("/submit", {
+      session_id: getSessionId(), type_code: t.name,
+      axis_bin: {A:aBin, B:bBin, C:cBin, D:dBin}, scores: s
+    });
+  }
+
+  app.innerHTML = `
+    <div class="qhead">診断結果 &middot; 非公開</div>
+    <div class="card" style="text-align:center;">
+      <p style="color:var(--sub);font-size:12px;margin-bottom:10px;">${t.koku}</p>
+      <div style="display:inline-block;border:2px solid var(--accent);border-radius:2px;padding:16px 32px;">
+        <div class="type-code">${t.name}</div>
+      </div>
+      <p style="color:var(--sub);font-size:13px;margin-top:14px;">この名前の由来は公式には定義されていません。</p>
+    </div>
+    <div class="card">
+      <p style="font-size:14px;margin-bottom:10px;">あなたの傾向(この結果はあなたのみが見ています)</p>
+      <p style="font-size:14px;color:var(--ink);line-height:1.9;">${textA} また、${textB} そして、${textC}</p>
+    </div>
+    <div class="card">
+      <p style="font-size:14px;margin-bottom:4px;">数値の内訳</p>
+      ${axisBar("エネルギーの回復", s.A[0]/aTotal, "一人で回復", "誰かといて回復")}
+      ${axisBar("納得の基準", s.B[0]/bTotal, "自分基準", "他者評価基準")}
+      ${axisBarC(cVals)}
+    </div>
+    <div class="card">
+      <p style="font-size:14px;">同じ記号の人でも、細かなスコアは人によって異なります。上の文章や相性の出方が人によって違って見えるのはそのためです。</p>
+    </div>
+    <div class="card" id="fbcard">
+      <p style="font-size:14px;margin-bottom:12px;">この結果、実際の自分と近いと感じますか?(この回答が今後の精度向上に使われます)</p>
+      ${["A","B","C"].map(ax=>`
+        <div class="axisrow">
+          <div class="axislabel"><span>${ax==="A"?"回復の傾向":ax==="B"?"納得の基準":"不確実性への向き合い方"}</span></div>
+          <div style="display:flex;gap:8px;">
+            <button class="opt" style="margin:0;padding:8px 12px;font-size:13px;" onclick="sendFb('${ax}',1,this)">近い</button>
+            <button class="opt" style="margin:0;padding:8px 12px;font-size:13px;" onclick="sendFb('${ax}',0,this)">ズレている</button>
+          </div>
+        </div>`).join('')}
+    </div>
+    <button class="btn ghost" onclick="restart()">もう一度受ける(データは上書きされます)</button>
+    <p class="foot">この診断は仮説段階のツールです。すべての人に当てはまるとは限らず、断定的な性格判定ではありません。回答は匿名化された上で集計に使われ、個人が特定される形で外部に共有されることはありません。今後、月次のフィードバックによって質問内容の精度を継続的に見直していく予定です。</p>
+  `;
+}
+
+function axisBar(label, ratio, leftLabel, rightLabel){
+  const pct = (ratio*100).toFixed(0);
+  return `<div class="axisrow">
+    <div class="axislabel"><span>${leftLabel} ${100-pct}%</span><span>${pct}% ${rightLabel}</span></div>
+    <div class="axistrack"><div class="axisdot" style="left:calc(${100-pct}% - 7px)"></div></div>
+  </div>`;
+}
+function axisBarC(vals){
+  const labels=["白黒つけたい","保留できる","曖昧を楽しむ"];
+  return `<div class="axisrow">
+    <div class="axislabel"><span>不確実性への向き合い方</span></div>
+    <div style="display:flex;gap:4px;height:8px;margin-bottom:6px;">
+      ${vals.map(v=>`<div style="flex:${Math.max(v,0.04)};background:var(--accent);opacity:${0.4+v*0.6};border-radius:4px;"></div>`).join('')}
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--sub);">
+      ${labels.map((l,i)=>`<span>${l} ${(vals[i]*100).toFixed(0)}%</span>`).join('')}
+    </div>
+  </div>`;
+}
+
+function sendFb(axis, accurate, btn){
+  postJSON("/feedback", {session_id: getSessionId(), axis, accurate});
+  const row = btn.closest('.axisrow');
+  row.style.opacity = 0.5;
+  row.insertAdjacentHTML('beforeend', '<p style="font-size:12px;color:var(--sub);margin-top:4px;">記録しました</p>');
+}
+
+function restart(){
+  localStorage.removeItem(KEY);
+  state = loadState();
+  render();
+}
+
+document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='hidden') saveState(state); });
+window.addEventListener('pagehide', ()=> saveState(state));
+render();
+</script>
+</body>
+</html>
