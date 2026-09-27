@@ -122,9 +122,20 @@ const Q = [
 ];
 const NONE = "いずれも当てはまらない";
 const TYPES = {
-"0-0-0":"型-07","0-0-1":"型-19","0-0-2":"型-03","0-1-0":"型-22","0-1-1":"型-11","0-1-2":"型-28",
-"1-0-0":"型-15","1-0-1":"型-04","1-0-2":"型-31","1-1-0":"型-09","1-1-1":"型-26","1-1-2":"型-17"
+"0-0-0":{name:"ゼフィラ",koku:"第七刻"},
+"0-0-1":{name:"クロヴァン",koku:"第二刻"},
+"0-0-2":{name:"ミストーラ",koku:"第十一刻"},
+"0-1-0":{name:"ラクシード",koku:"第四刻"},
+"0-1-1":{name:"ヴェルニク",koku:"第九刻"},
+"0-1-2":{name:"ソラティス",koku:"第一刻"},
+"1-0-0":{name:"ノヴァリム",koku:"第六刻"},
+"1-0-1":{name:"ティグレア",koku:"第十二刻"},
+"1-0-2":{name:"クレシュタ",koku:"第五刻"},
+"1-1-0":{name:"アルヴィード",koku:"第十刻"},
+"1-1-1":{name:"パルセナ",koku:"第三刻"},
+"1-1-2":{name:"ヨルグリス",koku:"第八刻"}
 };
+
 const API_BASE = "https://jiko-kasetsu-backend.aclasst529.workers.dev";
 function getSessionId(){
   let sid = localStorage.getItem("jikokasetsu_sid");
@@ -252,21 +263,23 @@ function renderResult(app){
   const cBin = cVals.indexOf(Math.max(...cVals));
   const dBin = s.D[1]/dTotal >= 0.5 ? 1 : 0;
 
-  const code = TYPES[`${aBin}-${bBin}-${cBin}`];
+    const t = TYPES[`${aBin}-${bBin}-${cBin}`];
 
   if(!state.submitted){
     state.submitted = true; saveState(state);
     postJSON("/submit", {
-      session_id: getSessionId(), type_code: code,
+      session_id: getSessionId(), type_code: t.name,
       axis_bin: {A:aBin, B:bBin, C:cBin, D:dBin}, scores: s
     });
   }
 
+
   app.innerHTML = `
     <div class="qhead">診断結果 &middot; 非公開</div>
     <div class="card" style="text-align:center;">
-      <div class="type-code">${code}</div>
-      <p style="color:var(--sub);font-size:13px;">この記号の意味は公式には定義されていません。</p>
+           <p style="color:var(--sub);font-size:12px;margin-bottom:2px;">${t.koku}</p>
+      <div class="type-code">${t.name}</div>
+      <p style="color:var(--sub);font-size:13px;">この名前の由来は公式には定義されていません。</p>
     </div>
     <div class="card">
       <p style="font-size:14px;margin-bottom:4px;">傾向の内訳(この結果はあなたのみが見ています)</p>
