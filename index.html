@@ -31,7 +31,19 @@ body{margin:0;background-color:var(--bg);color:var(--ink);font-family:"Noto Sans
     repeating-linear-gradient(118deg, rgba(0,0,0,.012) 0px, rgba(0,0,0,.012) 1px, transparent 1px, transparent 3px);
   background-attachment:fixed;}
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
-.wrap{max-width:560px;margin:0 auto;padding:32px 20px 60px;}
+.wrap{max-width:560px;margin:0 auto;padding:32px 20px 60px;position:relative;z-index:1;}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.07;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+.hero{position:relative;overflow:hidden;padding-bottom:4px;}
+.hero>*:not(.hero-art):not(.wm){position:relative;z-index:1;}
+.hero-art{position:absolute;top:-6px;right:-50px;width:250px;height:250px;pointer-events:none;z-index:0;}
+.wm{position:absolute;top:-24px;right:6px;font-family:"Noto Serif JP",serif;font-weight:700;font-size:170px;
+  line-height:1;color:var(--accent);opacity:.08;pointer-events:none;user-select:none;z-index:0;}
+.divider{height:12px;margin:2px 0 20px;}
+.divider svg{width:100%;height:100%;display:block;}
+.ringwrap{position:relative;}
+.ring{position:absolute;left:50%;top:50%;width:300px;height:300px;margin:-150px 0 0 -150px;pointer-events:none;z-index:0;}
+.ringwrap>*:not(.ring){position:relative;z-index:1;}
 .titlerow{display:flex;align-items:center;gap:10px;margin-bottom:2px;}
 .stamp{display:flex;align-items:center;justify-content:center;width:32px;height:32px;flex:none;
   border:1.5px solid var(--accent);color:var(--accent);font-family:"Noto Serif JP",serif;
@@ -70,7 +82,7 @@ h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:28px;letter-spaci
 .qtext{font-family:"Noto Serif JP",serif;font-size:19px;font-weight:500;line-height:1.85;
   margin-bottom:24px;letter-spacing:.02em;}
 .bar{height:4px;background:var(--line);border-radius:4px;margin-bottom:24px;overflow:hidden;}
-.bar>i{display:block;height:100%;background:var(--accent);border-radius:4px;transition:width .3s;}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,transparent 0%,var(--accent) 14%,var(--accent) 100%);border-radius:4px 10px 10px 4px;transition:width .3s;}
 .type-code{font-family:"Noto Serif JP",serif;font-size:44px;font-weight:700;letter-spacing:.06em;
   color:var(--accent);margin:6px 0 4px;}
 .axisrow{margin:16px 0;}
@@ -84,9 +96,21 @@ h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:28px;letter-spaci
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="rough" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" seed="4" result="t"/>
+      <feDisplacementMap in="SourceGraphic" in2="t" scale="7"/>
+    </filter>
+  </defs>
+</svg>
 <div class="wrap" id="app"></div>
 
 <script>
+/* ---------- 質問データ ---------- */
+/* axis: A(回復源 0=一人/1=対人) B(承認 0=自己基準/1=他者基準)
+   C(不確実性耐性 0=白黒/1=保留/2=曖昧を楽しむ, 三値)
+   D(非表示・相性用 0=安全志向/1=挑戦志向) */
 const Q = [
 ["A","忙しい一週間の後、心から回復できるのはどちらに近い?",["誰にも会わず、一人の時間で回復する","信頼できる相手と過ごして回復する"]],
 ["A","疲れた時、頭に浮かぶのは?",["静かな場所に行きたい","誰かに話を聞いてほしい"]],
@@ -150,6 +174,8 @@ const Q = [
 ["D","予定のない自由な一日ができたら?",["だいたい過ごし方を決めておきたい","その場のノリで決めたい"]],
 ];
 const NONE = "いずれも当てはまらない";
+
+/* ---------- タイプコード表 (A,B,C の組み合わせ→意味を持たない記号) ---------- */
 const TYPES = {
 "0-0-0":{name:"ゼフィラ",koku:"第七刻"},
 "0-0-1":{name:"クロヴァン",koku:"第二刻"},
@@ -165,6 +191,7 @@ const TYPES = {
 "1-1-2":{name:"ヨルグリス",koku:"第八刻"}
 };
 
+/* ---------- バックエンド接続先(未設定なら送信をスキップしローカルのみで動作) ---------- */
 const API_BASE = "https://jiko-kasetsu-backend.aclasst529.workers.dev";
 function getSessionId(){
   let sid = localStorage.getItem("jikokasetsu_sid");
@@ -172,12 +199,13 @@ function getSessionId(){
   return sid;
 }
 async function postJSON(path, body){
-  if(!API_BASE) return;
+  if(!API_BASE) return; // バックエンド未接続の間はローカルのみで完結
   try{
     await fetch(API_BASE + path, {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(body)});
-  }catch(e){}
+  }catch(e){ /* 送信失敗しても診断結果の表示自体は継続する */ }
 }
 
+/* ---------- 状態管理 ---------- */
 const KEY = "jikokasetsu_v1";
 function loadState(){
   try{ const s = JSON.parse(localStorage.getItem(KEY)); if(s) return s; }catch(e){}
@@ -192,7 +220,9 @@ function render(){
   const app = document.getElementById('app');
   const total = Q.length;
   const answered = Object.keys(state.answers).length;
+
   if(answered >= total){ renderResult(app); return; }
+
   if(state.pos % 10 === 0 && Object.keys(state.answers).length === state.pos){
     renderSessionGate(app);
     return;
@@ -203,9 +233,17 @@ function render(){
 function renderSessionGate(app){
   const session = Math.floor(state.pos/10)+1;
   app.innerHTML = `
-    <div class="titlerow"><span class="stamp">自</span><h1>自己仮説</h1></div>
-    <div class="brushline"></div>
-    <p class="lede">言語化されていなかった自分の傾向に、状況判断を通じて近づく仮説ツール。</p>
+    <div class="hero">
+      <span class="wm">仮</span>
+      <svg class="hero-art" viewBox="0 0 200 200" aria-hidden="true">
+        <path d="M100 22 C 152 20, 186 62, 178 110 C 170 158, 128 186, 86 176 C 44 166, 20 128, 30 88" filter="url(#rough)" style="fill:none;stroke:var(--accent);stroke-width:10;stroke-linecap:round;opacity:.17"/>
+        <path d="M104 26 C 150 26, 180 64, 173 108 C 166 152, 128 178, 90 170" filter="url(#rough)" style="fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;opacity:.22"/>
+      </svg>
+      <div class="titlerow"><span class="stamp">自</span><h1>自己仮説</h1></div>
+      <div class="brushline"></div>
+      <p class="lede">言語化されていなかった自分の傾向に、状況判断を通じて近づく仮説ツール。</p>
+    </div>
+    <div class="divider"><svg viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true"><path d="M0 6 C 40 2, 80 9, 130 5 S 230 3, 300 6" filter="url(#rough)" style="fill:none;stroke:var(--accent);stroke-width:2.2;stroke-linecap:round;opacity:.55"/></svg></div>
     <div class="pillrow"><span class="pill">全60問</span><span class="pill">10問 × 6セッション</span><span class="pill">結果は自分だけ閲覧可</span></div>
     ${state.pos===0 ? '<p class="foot" style="margin-bottom:16px;"><a href="#" onclick="testConnection(event)" style="color:var(--accent);">接続テストを送信する(動作確認用)</a> <span id="testresult"></span></p>' : ''}
     <div class="card">
@@ -233,6 +271,7 @@ async function testConnection(e){
     el.textContent = res.ok ? '成功しました' : ('失敗: ' + res.status);
   }catch(err){ el.textContent = '通信エラー: ' + err; }
 }
+
 function startSession(){ render2(); }
 function render2(){ renderQuestionForce(); }
 function renderQuestionForce(){ renderQuestion(document.getElementById('app')); }
@@ -342,7 +381,14 @@ function renderResult(app){
 
   app.innerHTML = `
     <div class="qhead">診断結果 &middot; 非公開</div>
-    <div class="card" style="text-align:center;">
+    <div class="card ringwrap" style="text-align:center;overflow:hidden;">
+      <svg class="ring" viewBox="0 0 200 200" aria-hidden="true">
+        <path d="M100 18 C 150 16, 186 58, 180 106 C 174 156, 132 188, 88 180 C 44 172, 18 132, 26 90" filter="url(#rough)" style="fill:none;stroke:var(--accent);stroke-width:8;stroke-linecap:round;opacity:.16"/>
+        <circle cx="176" cy="40" r="3.2" filter="url(#rough)" style="fill:var(--accent);opacity:.25"/>
+        <circle cx="188" cy="58" r="1.8" filter="url(#rough)" style="fill:var(--accent);opacity:.25"/>
+        <circle cx="22" cy="150" r="2.6" filter="url(#rough)" style="fill:var(--accent);opacity:.22"/>
+        <circle cx="34" cy="166" r="1.6" filter="url(#rough)" style="fill:var(--accent);opacity:.22"/>
+      </svg>
       <p style="color:var(--sub);font-size:12px;margin-bottom:10px;">${t.koku}</p>
       <div style="display:inline-block;border:2px solid var(--accent);border-radius:2px;padding:16px 32px;">
         <div class="type-code">${t.name}</div>
@@ -397,6 +443,7 @@ function axisBarC(vals){
     </div>
   </div>`;
 }
+
 
 function sendFb(axis, accurate, btn){
   postJSON("/feedback", {session_id: getSessionId(), axis, accurate});
