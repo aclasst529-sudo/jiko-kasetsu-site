@@ -36,8 +36,8 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opa
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
 .hero{position:relative;overflow:hidden;padding-bottom:4px;}
 .hero>*:not(.hero-art):not(.wm){position:relative;z-index:1;}
-.hero-art{position:absolute;top:-6px;right:-50px;width:250px;height:250px;pointer-events:none;z-index:0;}
-.wm{position:absolute;top:-24px;right:6px;font-family:"Noto Serif JP",serif;font-weight:700;font-size:170px;
+.hero-art{position:absolute;top:6px;right:-20px;width:170px;height:170px;pointer-events:none;z-index:0;}
+.wm{position:absolute;top:6px;right:2px;font-family:"Noto Serif JP",serif;font-weight:700;font-size:110px;
   line-height:1;color:var(--accent);opacity:.08;pointer-events:none;user-select:none;z-index:0;}
 .divider{height:12px;margin:2px 0 20px;}
 .divider svg{width:100%;height:100%;display:block;}
@@ -60,6 +60,7 @@ h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:28px;letter-spaci
 .qcard{border-left:3px solid var(--accent);box-shadow:0 4px 20px rgba(0,0,0,.06);}
 .qcard::before,.qcard::after{display:none;}
 .btn{display:inline-block;background:var(--ink);color:var(--bg);border:none;border-radius:2px;
+  touch-action:manipulation;
   padding:14px 22px;font-size:15px;font-family:inherit;cursor:pointer;width:100%;text-align:center;
   letter-spacing:.04em;box-shadow:0 3px 12px rgba(0,0,0,.16);border-bottom:2px solid var(--accent);
   transition:transform .1s,opacity .1s;}
@@ -67,6 +68,7 @@ h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:28px;letter-spaci
 .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none;
   border-bottom:1px solid var(--line);}
 .opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--card);
+  touch-action:manipulation;
   border:1px solid var(--line);border-radius:2px;padding:14px 16px;margin-bottom:10px;
   font-size:15px;font-family:inherit;color:var(--ink);cursor:pointer;transition:border-color .15s,background .15s;}
 .opt:active,.opt.sel{border-color:var(--accent);background:var(--accent-soft);}
@@ -177,18 +179,18 @@ const NONE = "いずれも当てはまらない";
 
 /* ---------- タイプコード表 (A,B,C の組み合わせ→意味を持たない記号) ---------- */
 const TYPES = {
-"0-0-0":{name:"ゼフィラ",koku:"第七刻"},
-"0-0-1":{name:"クロヴァン",koku:"第二刻"},
-"0-0-2":{name:"ミストーラ",koku:"第十一刻"},
-"0-1-0":{name:"ラクシード",koku:"第四刻"},
-"0-1-1":{name:"ヴェルニク",koku:"第九刻"},
-"0-1-2":{name:"ソラティス",koku:"第一刻"},
-"1-0-0":{name:"ノヴァリム",koku:"第六刻"},
-"1-0-1":{name:"ティグレア",koku:"第十二刻"},
-"1-0-2":{name:"クレシュタ",koku:"第五刻"},
-"1-1-0":{name:"アルヴィード",koku:"第十刻"},
-"1-1-1":{name:"パルセナ",koku:"第三刻"},
-"1-1-2":{name:"ヨルグリス",koku:"第八刻"}
+"0-0-0":{name:"黎明",sub:"クロノス",tagline:"すべての始まりを切り拓く者",color:"#E67E3C"},
+"0-0-1":{name:"予兆",sub:"シグナル",tagline:"未来の兆しをいち早く察知する者",color:"#2AA9C4"},
+"0-0-2":{name:"黄昏",sub:"トワイライト",tagline:"変化と移ろいを受け入れる者",color:"#A85A82"},
+"0-1-0":{name:"刻印",sub:"スタンプ",tagline:"確実に実績と歴史を刻む者",color:"#A6342A"},
+"0-1-1":{name:"静止",sub:"スティルネス",tagline:"揺らぎの中で静かに俯瞰する者",color:"#57728A"},
+"0-1-2":{name:"流転",sub:"スペクトラム",tagline:"柔軟に形を変え自由に生きる者",color:"#B23FA0"},
+"1-0-0":{name:"永遠",sub:"エタニティ",tagline:"変わらない信念と秩序を守る者",color:"#2E7D5B"},
+"1-0-1":{name:"時空",sub:"ディメンション",tagline:"独自の視点と世界観を持つ者",color:"#5B4B99"},
+"1-0-2":{name:"深夜",sub:"ミッドナイト",tagline:"静寂の中で深索する者",color:"#2E3F6E"},
+"1-1-0":{name:"白昼",sub:"ソレイユ",tagline:"圧倒的な存在感で輝く者",color:"#E3A730"},
+"1-1-1":{name:"残響",sub:"エコー",tagline:"過去の知恵や経験を語り継ぐ者",color:"#8B6A45"},
+"1-1-2":{name:"刹那",sub:"モーメント",tagline:"今この瞬間に全てを賭ける者",color:"#D6395F"}
 };
 
 /* ---------- バックエンド接続先(未設定なら送信をスキップしローカルのみで動作) ---------- */
@@ -236,8 +238,8 @@ function renderSessionGate(app){
     <div class="hero">
       <span class="wm">仮</span>
       <svg class="hero-art" viewBox="0 0 200 200" aria-hidden="true">
-        <path d="M100 22 C 152 20, 186 62, 178 110 C 170 158, 128 186, 86 176 C 44 166, 20 128, 30 88" filter="url(#rough)" style="fill:none;stroke:var(--accent);stroke-width:10;stroke-linecap:round;opacity:.17"/>
-        <path d="M104 26 C 150 26, 180 64, 173 108 C 166 152, 128 178, 90 170" filter="url(#rough)" style="fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;opacity:.22"/>
+        <circle cx="100" cy="100" r="80" fill="none" stroke="var(--accent)" stroke-width="9" stroke-linecap="round"
+          stroke-dasharray="440 500" transform="rotate(-95 100 100)" opacity=".16" filter="url(#rough)"/>
       </svg>
       <div class="titlerow"><span class="stamp">自</span><h1>自己仮説</h1></div>
       <div class="brushline"></div>
@@ -379,21 +381,21 @@ function renderResult(app){
     });
   }
 
+  document.documentElement.style.setProperty('--accent', t.color);
+
   app.innerHTML = `
     <div class="qhead">診断結果 &middot; 非公開</div>
     <div class="card ringwrap" style="text-align:center;overflow:hidden;">
       <svg class="ring" viewBox="0 0 200 200" aria-hidden="true">
-        <path d="M100 18 C 150 16, 186 58, 180 106 C 174 156, 132 188, 88 180 C 44 172, 18 132, 26 90" filter="url(#rough)" style="fill:none;stroke:var(--accent);stroke-width:8;stroke-linecap:round;opacity:.16"/>
-        <circle cx="176" cy="40" r="3.2" filter="url(#rough)" style="fill:var(--accent);opacity:.25"/>
-        <circle cx="188" cy="58" r="1.8" filter="url(#rough)" style="fill:var(--accent);opacity:.25"/>
-        <circle cx="22" cy="150" r="2.6" filter="url(#rough)" style="fill:var(--accent);opacity:.22"/>
-        <circle cx="34" cy="166" r="1.6" filter="url(#rough)" style="fill:var(--accent);opacity:.22"/>
+        <circle cx="100" cy="100" r="78" fill="none" stroke="${t.color}" stroke-width="7" stroke-linecap="round"
+          stroke-dasharray="430 490" transform="rotate(-100 100 100)" opacity=".2" filter="url(#rough)"/>
       </svg>
-      <p style="color:var(--sub);font-size:12px;margin-bottom:10px;">${t.koku}</p>
-      <div style="display:inline-block;border:2px solid var(--accent);border-radius:2px;padding:16px 32px;">
-        <div class="type-code">${t.name}</div>
+      <p style="color:${t.color};font-size:12px;letter-spacing:.12em;margin-bottom:6px;">${t.sub}</p>
+      <div style="display:inline-block;border:2px solid ${t.color};border-radius:2px;padding:14px 30px;">
+        <div class="type-code" style="color:${t.color};">${t.name}</div>
       </div>
-      <p style="color:var(--sub);font-size:13px;margin-top:14px;">この名前の由来は公式には定義されていません。</p>
+      <p style="color:var(--ink);font-size:14px;margin-top:16px;">${t.tagline}</p>
+      <p style="color:var(--sub);font-size:12px;margin-top:6px;">この名前が示すのは大まかな傾向で、断定ではありません。</p>
     </div>
     <div class="card">
       <p style="font-size:14px;margin-bottom:10px;">あなたの傾向(この結果はあなたのみが見ています)</p>
@@ -453,6 +455,7 @@ function sendFb(axis, accurate, btn){
 }
 
 function restart(){
+  document.documentElement.style.removeProperty('--accent');
   localStorage.removeItem(KEY);
   state = loadState();
   render();
