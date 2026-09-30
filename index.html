@@ -4,98 +4,41 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>自己仮説</title>
+
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap');
 :root{
-  --bg:#F2EEE7; --ink:#1C1815; --sub:#6E665D; --line:#DDD5C8;
-  --accent:#8C2F2B; --card:#FFFDF9; --accent-soft:#F6E4DE;
-  box-sizing:border-box;
-  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#060B16;--panel:#0C1322;--panel2:#10192A;--ink:#F3F0E8;--sub:#9AA7C4;--line:rgba(164,181,221,.22);
+  --accent:#5C6CFF;--accent2:#6EDCFF;--glow:rgba(92,108,255,.35);--card:rgba(8,15,28,.78);
 }
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#15120F; --ink:#EFE9E0; --sub:#A79E92; --line:#332C25;
-    --accent:#D9776E; --card:#1D1916; --accent-soft:#2C1B18;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#15120F; --ink:#EFE9E0; --sub:#A79E92; --line:#332C25;
-  --accent:#D9776E; --card:#1D1916; --accent-soft:#2C1B18;
-}
-html{scroll-padding-top:env(safe-area-inset-top,0px);}
-*{box-sizing:border-box;}
-body{margin:0;background-color:var(--bg);color:var(--ink);font-family:"Noto Sans JP",sans-serif;
-  min-height:100%;line-height:1.7;
-  background-image:
-    radial-gradient(ellipse 800px 600px at -5% -5%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 60%),
-    radial-gradient(ellipse 700px 500px at 105% 105%, rgba(0,0,0,.05), transparent 60%),
-    repeating-linear-gradient(118deg, rgba(0,0,0,.012) 0px, rgba(0,0,0,.012) 1px, transparent 1px, transparent 3px);
-  background-attachment:fixed;}
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
-.wrap{max-width:560px;margin:0 auto;padding:32px 20px 60px;position:relative;z-index:1;}
-body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.07;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
-.hero{position:relative;overflow:hidden;padding-bottom:4px;}
-.hero>*:not(.hero-art):not(.wm){position:relative;z-index:1;}
-.hero-art{position:absolute;top:6px;right:-20px;width:170px;height:170px;pointer-events:none;z-index:0;}
-.wm{position:absolute;top:6px;right:2px;font-family:"Noto Serif JP",serif;font-weight:700;font-size:110px;
-  line-height:1;color:var(--accent);opacity:.08;pointer-events:none;user-select:none;z-index:0;}
-.divider{height:12px;margin:2px 0 20px;}
-.divider svg{width:100%;height:100%;display:block;}
-.ringwrap{position:relative;}
-.ring{position:absolute;left:50%;top:50%;width:300px;height:300px;margin:-150px 0 0 -150px;pointer-events:none;z-index:0;}
-.ringwrap>*:not(.ring){position:relative;z-index:1;}
-.titlerow{display:flex;align-items:center;gap:10px;margin-bottom:2px;}
-.stamp{display:flex;align-items:center;justify-content:center;width:32px;height:32px;flex:none;
-  border:1.5px solid var(--accent);color:var(--accent);font-family:"Noto Serif JP",serif;
-  font-size:16px;transform:rotate(-3deg);border-radius:1px;}
-.brushline{width:68px;height:3px;margin:12px 0 22px;border-radius:2px;
-  background:linear-gradient(90deg,var(--accent) 0%,var(--accent) 55%,transparent 100%);opacity:.85;}
-h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:28px;letter-spacing:.04em;margin:0 0 6px;}
-.lede{color:var(--sub);font-size:14px;margin:0 0 28px;}
-.card{background:var(--card);border:1px solid var(--line);border-radius:2px;padding:26px 22px;
-  margin-bottom:16px;position:relative;box-shadow:0 2px 16px rgba(0,0,0,.04);}
-.card::before,.card::after{content:"";position:absolute;width:13px;height:13px;opacity:.55;}
-.card::before{top:0;left:0;border-top:1.5px solid var(--accent);border-left:1.5px solid var(--accent);}
-.card::after{bottom:0;right:0;border-bottom:1.5px solid var(--accent);border-right:1.5px solid var(--accent);}
-.qcard{border-left:3px solid var(--accent);box-shadow:0 4px 20px rgba(0,0,0,.06);}
-.qcard::before,.qcard::after{display:none;}
-.btn{display:inline-block;background:var(--ink);color:var(--bg);border:none;border-radius:2px;
-  touch-action:manipulation;
-  padding:14px 22px;font-size:15px;font-family:inherit;cursor:pointer;width:100%;text-align:center;
-  letter-spacing:.04em;box-shadow:0 3px 12px rgba(0,0,0,.16);border-bottom:2px solid var(--accent);
-  transition:transform .1s,opacity .1s;}
-.btn:active{opacity:.9;transform:translateY(1px);}
-.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none;
-  border-bottom:1px solid var(--line);}
-.opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--card);
-  touch-action:manipulation;
-  border:1px solid var(--line);border-radius:2px;padding:14px 16px;margin-bottom:10px;
-  font-size:15px;font-family:inherit;color:var(--ink);cursor:pointer;transition:border-color .15s,background .15s;}
-.opt:active,.opt.sel{border-color:var(--accent);background:var(--accent-soft);}
-.opt.none{color:var(--sub);font-size:13px;border-style:dashed;}
-.optnum{flex:none;width:24px;height:24px;border-radius:50%;border:1px solid var(--line);
-  display:flex;align-items:center;justify-content:center;font-family:"Noto Serif JP",serif;
-  font-size:12px;color:var(--sub);}
-.opt:active .optnum,.opt.sel .optnum{border-color:var(--accent);color:var(--accent);}
-.qhead{color:var(--sub);font-size:12px;margin-bottom:10px;}
-.seal{display:inline-flex;align-items:center;gap:6px;font-family:"Noto Serif JP",serif;
-  font-size:12px;color:var(--accent);border:1px solid var(--accent);border-radius:2px;
-  padding:3px 10px;margin-bottom:14px;letter-spacing:.08em;}
-.qtext{font-family:"Noto Serif JP",serif;font-size:19px;font-weight:500;line-height:1.85;
-  margin-bottom:24px;letter-spacing:.02em;}
-.bar{height:4px;background:var(--line);border-radius:4px;margin-bottom:24px;overflow:hidden;}
-.bar>i{display:block;height:100%;background:linear-gradient(90deg,transparent 0%,var(--accent) 14%,var(--accent) 100%);border-radius:4px 10px 10px 4px;transition:width .3s;}
-.type-code{font-family:"Noto Serif JP",serif;font-size:44px;font-weight:700;letter-spacing:.06em;
-  color:var(--accent);margin:6px 0 4px;}
-.axisrow{margin:16px 0;}
-.axislabel{font-size:12px;color:var(--sub);display:flex;justify-content:space-between;margin-bottom:6px;}
-.axistrack{height:8px;background:var(--line);border-radius:4px;position:relative;}
-.axisdot{position:absolute;top:-3px;width:14px;height:14px;border-radius:50%;background:var(--accent);}
-.hidden{display:none;}
-.foot{color:var(--sub);font-size:12px;margin-top:30px;line-height:1.8;}
-.pillrow{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap;}
-.pill{font-size:11px;color:var(--sub);border:1px solid var(--line);border-radius:20px;padding:3px 10px;}
+*{box-sizing:border-box} html{scroll-behavior:smooth;background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"Noto Sans JP",sans-serif;min-height:100vh;line-height:1.75;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle at 50% -10%,rgba(62,100,180,.14),transparent 40%),linear-gradient(180deg,rgba(3,8,18,.2),rgba(3,8,18,.9));z-index:-1}
+button{font:inherit}.wrap{width:min(1180px,100%);margin:0 auto;padding:0 20px 72px}.hidden{display:none!important}
+.serif,h1,h2,h3,.type-code,.qtext{font-family:"Noto Serif JP",serif}
+.topbar{height:74px;display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid rgba(255,255,255,.06);position:relative;z-index:5}
+.brand{display:flex;align-items:center;gap:12px}.brandmark{width:40px;height:40px;border:1px solid rgba(150,180,255,.35);border-radius:50%;position:relative;box-shadow:0 0 28px rgba(92,108,255,.22) inset,0 0 18px rgba(92,108,255,.18)}
+.brandmark:before,.brandmark:after{content:"";position:absolute;background:linear-gradient(90deg,transparent,#9bcfff,transparent)}.brandmark:before{left:6px;right:6px;top:50%;height:1px}.brandmark:after{top:6px;bottom:6px;left:50%;width:1px;background:linear-gradient(180deg,transparent,#9bcfff,transparent)}
+.brandtitle{font-family:"Noto Serif JP",serif;letter-spacing:.08em;font-size:18px}.brandsub{font-size:9px;letter-spacing:.28em;color:#8fa0c3}
+.nav{display:flex;gap:26px;font-size:12px;color:#b5bfd5}.nav a{color:inherit;text-decoration:none}.nav a:hover{color:white}
+.hero{min-height:650px;margin:0 -20px;position:relative;display:grid;align-items:center;overflow:hidden;border-bottom:1px solid rgba(255,255,255,.08)}
+.hero:before{content:"";position:absolute;inset:0;background:url('assets/hero.webp') center/cover no-repeat;filter:saturate(.88) contrast(1.02)}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(3,7,15,.97) 0%,rgba(3,7,15,.83) 30%,rgba(3,7,15,.22) 62%,rgba(3,7,15,.36) 100%),linear-gradient(180deg,rgba(3,7,15,.15),rgba(3,7,15,.78) 100%)}
+.hero-inner{width:min(1180px,100%);margin:auto;padding:60px 40px;position:relative;z-index:2}.eyebrow{font-size:11px;letter-spacing:.24em;color:#94a7cf;margin-bottom:22px}.hero h1{font-weight:500;letter-spacing:.06em;font-size:clamp(46px,6vw,76px);line-height:1.16;margin:0 0 10px;text-shadow:0 0 30px rgba(80,110,255,.18)}
+.hero-en{letter-spacing:.35em;font-size:11px;color:#b7c6e8;margin-bottom:38px}.hero-copy{font-family:"Noto Serif JP",serif;font-size:clamp(24px,3vw,40px);line-height:1.55;max-width:650px;margin:0 0 16px}.hero-note{max-width:560px;color:#b7c0d4;font-size:13px;margin:0 0 34px}
+.actions{display:flex;gap:14px;flex-wrap:wrap}.btn{border:1px solid rgba(147,175,255,.5);background:linear-gradient(135deg,rgba(68,94,180,.76),rgba(48,85,190,.5));color:white;padding:14px 24px;border-radius:999px;cursor:pointer;letter-spacing:.05em;box-shadow:0 0 0 1px rgba(255,255,255,.04) inset,0 0 30px rgba(74,114,255,.18);transition:.2s}.btn:hover{transform:translateY(-1px);box-shadow:0 0 35px rgba(74,114,255,.35)}.btn.ghost{background:rgba(6,12,24,.45);color:#dce5fa;border-color:rgba(167,187,226,.28);box-shadow:none}.btn.small{padding:10px 18px;font-size:12px}
+.section{padding:72px 0 18px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:26px}.section h2{margin:0;font-size:30px;font-weight:500;letter-spacing:.06em}.section-kicker{font-size:10px;letter-spacing:.25em;color:#8292b7;margin-bottom:7px}.section-desc{color:#98a5bf;font-size:13px;max-width:560px}
+.koku-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}.koku-card{position:relative;aspect-ratio:.66;overflow:hidden;border:1px solid rgba(149,168,210,.24);border-radius:4px;background:#0d1523;cursor:pointer;isolation:isolate}.koku-card img{width:100%;height:100%;object-fit:cover;transition:.35s;filter:saturate(.82) brightness(.82)}.koku-card:hover img{transform:scale(1.035);filter:saturate(1) brightness(.98)}.koku-card:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,8,15,.08) 35%,rgba(4,8,15,.85) 100%);z-index:1}.koku-meta{position:absolute;z-index:2;left:14px;right:14px;bottom:14px;text-align:center}.koku-num{font-family:"Noto Serif JP",serif;font-size:10px;letter-spacing:.16em;color:#c9d2e9}.koku-name{font-family:"Noto Serif JP",serif;font-size:22px;letter-spacing:.12em;margin:3px 0}.koku-en{font-size:9px;letter-spacing:.22em;color:#b1bfdc}
+.info-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:24px}.info-card{border:1px solid var(--line);background:linear-gradient(180deg,rgba(14,22,38,.76),rgba(7,12,23,.82));border-radius:8px;padding:26px}.info-card h3{margin:0 0 10px;font-size:19px;font-weight:500}.info-card p{margin:0;color:#aab5ca;font-size:13px}
+.session{max-width:820px;margin:90px auto 0}.session-title{font-family:"Noto Serif JP",serif;font-size:32px;margin:0 0 10px}.session-copy{color:#a9b4c9;margin:0 0 28px}.sessionbox{border:1px solid rgba(137,163,221,.25);border-radius:10px;background:linear-gradient(180deg,rgba(15,23,40,.78),rgba(7,12,23,.88));padding:32px;box-shadow:0 18px 70px rgba(0,0,0,.28)}
+.question-shell{max-width:860px;margin:42px auto 0}.progress-head{display:flex;justify-content:space-between;gap:16px;font-size:11px;color:#8293b8;letter-spacing:.16em;margin-bottom:10px}.bar{height:2px;background:rgba(150,170,210,.14);overflow:hidden;margin-bottom:30px}.bar>i{display:block;height:100%;background:linear-gradient(90deg,#6b7cff,#7ce9ff);box-shadow:0 0 16px rgba(108,132,255,.65);transition:width .3s}.seal{font-size:10px;letter-spacing:.2em;color:#8ea1c8;margin-bottom:14px}.qcard{border:1px solid rgba(146,167,214,.23);background:linear-gradient(180deg,rgba(13,21,37,.9),rgba(7,12,23,.94));border-radius:12px;padding:34px;box-shadow:0 24px 80px rgba(0,0,0,.28)}.qtext{font-size:clamp(22px,3vw,30px);line-height:1.75;margin:0 0 28px;font-weight:400}.opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;color:#edf2ff;background:rgba(11,18,32,.72);border:1px solid rgba(152,174,220,.2);border-radius:8px;padding:15px 16px;margin-bottom:10px;cursor:pointer;transition:.18s}.opt:hover,.opt.sel{border-color:rgba(113,145,255,.75);background:linear-gradient(90deg,rgba(48,71,140,.44),rgba(15,27,51,.75));box-shadow:0 0 24px rgba(76,100,210,.14)}.optnum{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(147,171,225,.32);font-size:11px;color:#b7c5e6}.opt.none{color:#8c99b2;border-style:dashed;font-size:12px}
+.result-hero{position:relative;min-height:520px;border:1px solid rgba(150,170,220,.18);border-radius:14px;overflow:hidden;margin-top:42px;display:flex;align-items:flex-end;background:#0a1020}.result-hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:saturate(.95) brightness(.68);transform:scale(1.03)}.result-hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(3,8,18,.88),rgba(3,8,18,.5) 45%,rgba(3,8,18,.18)),linear-gradient(180deg,rgba(3,8,18,.1),rgba(3,8,18,.85) 100%)}.result-content{position:relative;z-index:2;padding:42px;max-width:650px}.result-order{font-family:"Noto Serif JP",serif;font-size:15px;letter-spacing:.16em;color:var(--accent2)}.result-name{font-family:"Noto Serif JP",serif;font-size:64px;line-height:1.1;margin:8px 0 5px;letter-spacing:.12em}.result-en{font-size:12px;letter-spacing:.32em;color:#c8d4ef}.result-tagline{font-family:"Noto Serif JP",serif;font-size:19px;margin-top:20px}.result-note{font-size:12px;color:#a9b5cd;max-width:520px}
+.result-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;margin-top:14px}.card{border:1px solid rgba(145,165,211,.18);background:linear-gradient(180deg,rgba(13,21,37,.86),rgba(7,12,23,.9));border-radius:10px;padding:26px}.card-title{font-family:"Noto Serif JP",serif;font-size:20px;margin-bottom:15px}.card p{color:#d8dfed}.axisrow{margin:17px 0}.axislabel{display:flex;justify-content:space-between;gap:12px;font-size:11px;color:#9eabc4;margin-bottom:7px}.axistrack{height:4px;background:rgba(160,180,220,.12);position:relative;border-radius:4px}.axisdot{position:absolute;top:-4px;width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 18px var(--glow)}.pill{border:1px solid rgba(150,170,215,.22);background:rgba(8,14,26,.55);color:#b8c4dd;border-radius:999px;padding:7px 11px;cursor:pointer}.pill.sel{border-color:var(--accent);color:white;box-shadow:0 0 15px var(--glow)}
+.foot{color:#7887a8;font-size:11px;margin-top:24px}.qhead{font-size:10px;letter-spacing:.18em;color:#8292b6}.ring{display:none}.type-code{font-size:58px}.divider,.titlerow,.stamp,.brushline,.wm,.hero-art{display:none!important}
+@media(max-width:980px){.koku-grid{grid-template-columns:repeat(4,1fr)}.nav{display:none}.result-grid{grid-template-columns:1fr}.hero{min-height:620px}}
+@media(max-width:680px){.wrap{padding:0 14px 56px}.topbar{height:62px}.hero{margin:0 -14px;min-height:620px}.hero-inner{padding:46px 24px 54px}.hero h1{font-size:46px}.hero-copy{font-size:27px}.actions .btn{width:100%}.section{padding-top:56px}.koku-grid{display:flex;overflow-x:auto;gap:10px;padding-bottom:8px;scroll-snap-type:x mandatory}.koku-card{min-width:42vw;scroll-snap-align:start}.info-row{grid-template-columns:1fr}.question-shell{margin-top:24px}.qcard{padding:22px}.qtext{font-size:22px}.result-hero{min-height:560px}.result-content{padding:26px}.result-name{font-size:52px}.card{padding:20px}}
 </style>
+
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -109,89 +52,269 @@ h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:28px;letter-spaci
 <div class="wrap" id="app"></div>
 
 <script>
-/* ---------- 質問データ ---------- */
-/* axis: A(回復源 0=一人/1=対人) B(承認 0=自己基準/1=他者基準)
-   C(不確実性耐性 0=白黒/1=保留/2=曖昧を楽しむ, 三値)
-   D(非表示・相性用 0=安全志向/1=挑戦志向) */
+/* ---------- 質問データ v2 ----------
+   8つの内部パラメータを連続値として測定する。
+   12刻は固定的な性格分類ではなく、8軸の全体像から得られる象徴ラベル。
+   0/1は優劣ではなく、各軸の左右方向を示す。
+------------------------------------- */
+const PARAMS = {
+  "CN": {
+    "name": "接続",
+    "left": "一人で整う",
+    "right": "人との接触で整う"
+  },
+  "JR": {
+    "name": "判断基準",
+    "left": "自分の納得",
+    "right": "外部の反応"
+  },
+  "CL": {
+    "name": "確定性",
+    "left": "答えを固める",
+    "right": "可能性を残す"
+  },
+  "EX": {
+    "name": "探索性",
+    "left": "安定・既知",
+    "right": "変化・未知"
+  },
+  "TH": {
+    "name": "思考様式",
+    "left": "直感・即時処理",
+    "right": "熟考・分析"
+  },
+  "RA": {
+    "name": "対人自律",
+    "left": "自分を優先",
+    "right": "関係を優先"
+  },
+  "AC": {
+    "name": "行動速度",
+    "left": "慎重に動く",
+    "right": "まず動く"
+  },
+  "SF": {
+    "name": "自己可変性",
+    "left": "一貫した自分",
+    "right": "状況で変わる自分"
+  }
+};
+
 const Q = [
-["A","忙しい一週間の後、心から回復できるのはどちらに近い?",["誰にも会わず、一人の時間で回復する","信頼できる相手と過ごして回復する"]],
-["A","疲れた時、頭に浮かぶのは?",["静かな場所に行きたい","誰かに話を聞いてほしい"]],
-["A","休日の理想の過ごし方に近いのは?",["予定を入れず自分のペースで過ごす","誰かと予定を合わせて過ごす"]],
-["A","新しい環境に入った初日、エネルギーを使うのは?",["人に合わせて振る舞うこと","一人で状況を把握すること"]],
-["A","長時間人と話した後の感覚に近いのは?",["少し消耗した感じがする","むしろ元気になった感じがする"]],
-["A","作業がはかどるのはどちらの環境?",["静かな一人の空間","誰かの気配がある空間"]],
-["A","気分が落ち込んだ時にまずすることは?",["一人で考えをまとめる","誰かに話して整理する"]],
-["A","旅行するならどちらが楽しい?",["一人で気ままに回る","誰かと感想を共有しながら回る"]],
-["A","集中したい作業がある時は?",["一人になれる場所を探す","人がいる場所でもあまり気にならない"]],
-["A","理想の休憩時間の過ごし方は?",["スマホも置いてぼーっとする","誰かとメッセージのやり取りをする"]],
-["A","悩みごとがある時、最初にすることは?",["自分の中で答えを出そうとする","誰かに聞いてもらいたくなる"]],
-["A","刺激的な一日を過ごした夜は?",["静かに一人で余韻に浸りたい","誰かとその日について話したい"]],
-["A","エネルギーが切れかけている時に効くのは?",["何も予定のない時間","気の合う人との会話"]],
-["A","長期休暇の理想の使い方は?",["一人で好きなことに没頭する","人と会う予定を詰め込む"]],
-["A","初対面の人が多い場に呼ばれたら?",["できれば人数が少ない場を選ぶ","誰かいれば賑やかな場でも構わない"]],
-["B","仕事や作業の出来を自分で判断する基準は?",["自分の中の基準を満たしたかどうか","周りからどう評価されたかどうか"]],
-["B","褒められた時、素直に受け取れる方だと思う?",["理由が分かれば納得して受け取れる","嬉しいがどこか信じきれない時がある"]],
-["B","何かを決める時、最後の決め手になりやすいのは?",["自分がどう思うか","周りがどう見るか"]],
-["B","評価されない環境でもモチベーションは保てる方?",["保てる、自分の納得が大事","少し保ちにくい"]],
-["B","SNSの反応に対する感覚に近いのは?",["あまり気にならない","気になってしまう方だと思う"]],
-["B","誰かに指摘された時、まず考えるのは?",["自分自身がどう思うか","相手にどう見られたか"]],
-["B","服や持ち物を選ぶ基準に近いのは?",["自分が気に入るかどうか","周りにどう見られるか"]],
-["B","目標を達成した時、一番満たされるのは?",["自分の中の納得感","誰かに認められたという実感"]],
-["B","失敗した時、まず気になるのは?",["自分の中でどう消化するか","周りにどう思われたか"]],
-["B","人からの評価を聞く前に、自分の出来は分かる方?",["だいたい自分で分かる","人の反応を聞いて初めて分かる"]],
-["B","意見が対立した時に優先しやすいのは?",["自分の考えの筋が通っているか","相手との関係が保てるか"]],
-["B","頑張った結果を誰にも気づかれなかったら?",["それでも自分の中で納得できる","少し物足りなさを感じる"]],
-["B","昔の自分を振り返る時の基準は?",["自分がどう成長したか","周りからどう見られていたか"]],
-["B","何かを選ぶ時、人の意見を聞く前に自分の答えを決めている方?",["決めている方だと思う","人の意見を聞いてから決める方だと思う"]],
-["B","努力を続けられる一番の理由に近いのは?",["自分自身が納得したいから","誰かに認めてほしいから"]],
-["C","結論の出ない話し合いが続くと?",["早く結論を出したくなる","結論が出なくても特に困らない"],["むしろその過程自体を面白がれる"]],
-["C","予定が急に変わった時の反応に近いのは?",["早めに新しい予定をはっきりさせたい","変わったなりに成り行きに任せる"],["変化自体を楽しめる"]],
-["C","白黒つけにくい状況に置かれると?",["どちらかにはっきりさせたくなる","はっきりしないままでも進められる"],["曖昧さそのものが面白いと感じる"]],
-["C","答えのない問いを考える時間は?",["早めに自分なりの結論を出したい","考え続けること自体は苦にならない"],["答えが出ないこと自体を楽しめる"]],
-["C","複数の選択肢で迷った時は?",["早めにどちらかに決めたい","決めずに様子を見ることができる"],["迷っている状態自体を楽しめる"]],
-["C","人の意見が真っ二つに割れた場面では?",["どちらが正しいか判断したくなる","両方の立場をそのまま受け止められる"],["対立自体を面白い現象として見られる"]],
-["C","将来の予定が未定のままだと?",["少し落ち着かない","特に気にならない"],["未定であること自体にワクワクする"]],
-["C","相反する情報に触れた時は?",["どちらが正しいか調べたくなる","両方をそのまま保留しておける"],["矛盾している状態そのものが面白い"]],
-["C","締め切りのない課題を渡されたら?",["自分で期限を決めたくなる","期限がなくても特に困らない"],["期限がないこと自体を楽しめる"]],
-["C","二つの意見のどちらも一理あると感じたら?",["どちらか一方を選びたくなる","両方を並べたまま置いておける"],["矛盾を抱えたままでいることが心地いい"]],
-["C","計画が崩れて先が読めなくなったら?",["早く立て直したい","崩れたなりに進めていける"],["読めない状況自体が面白い"]],
-["C","誰かに「結局どっちなの」と聞かれたら?",["すぐに答えを出したい","保留のままでも答えられる"],["「どちらでもある」と答えたくなる"]],
-["C","はっきりしない人間関係の距離感は?",["早くはっきりさせたい","曖昧なままでも付き合える"],["曖昧な距離感自体を楽しめる"]],
-["C","正解が一つに決まらない議論は?",["居心地が悪く感じる","特に気にならない"],["一番面白いと感じる"]],
-["C","占いや診断の結果に矛盾があったら?",["どちらが正しいか気になる","そのまま両方受け止められる"],["矛盾している方が面白いと感じる"]],
-["C","自分の中で意見が変わり続ける時は?",["早く一つにまとめたい","変わり続けてもあまり困らない"],["変わり続けること自体が楽しい"]],
-["C","結論を急かされる場面が続くと?",["結論を出せてむしろ安心する","急かされること自体に疲れる"],["急かされてもマイペースに保留できる"]],
-["C","ルールが明文化されていない集まりは?",["少し落ち着かない","慣れれば特に問題ない"],["ルールがない方が面白いと感じる"]],
-["C","自分の性格を一言で説明してと言われたら?",["一言でまとめたい","一言では難しいと感じる"],["一言でまとまらないことが自分らしいと思う"]],
-["C","矛盾した二つの感情を同時に抱いたら?",["どちらかを優先して整理したい","両方あるままにしておける"],["矛盾している自分を面白がれる"]],
-["D","新しい挑戦の話が来た時、最初に考えるのは?",["リスクや失敗した時のこと","得られるものや面白さ"]],
-["D","知らない土地への旅行は?",["下調べをしっかりしてから行きたい","行ってから考える方が楽しい"]],
-["D","お金の使い方の傾向に近いのは?",["堅実に管理する方","使いどころにはあまり迷わない方"]],
-["D","新しい環境に変わることについては?",["できれば安定した環境を保ちたい","変化があった方がむしろ楽しい"]],
-["D","未経験のことに誘われたら?",["まず不安要素を確認したくなる","とりあえずやってみたくなる"]],
-["D","将来の計画の立て方は?",["リスクを避けた堅実な計画を好む","多少のリスクは織り込んで攻める計画を好む"]],
-["D","初めての店や商品を選ぶ時は?",["評判を調べてから選ぶ","直感で選んでみることが多い"]],
-["D","大きな決断をする時に重視するのは?",["失敗しない確実さ","得られる可能性の大きさ"]],
-["D","仕事や作業で新しいやり方を試すことについては?",["実績のあるやり方を優先したい","新しいやり方を積極的に試したい"]],
-["D","予定のない自由な一日ができたら?",["だいたい過ごし方を決めておきたい","その場のノリで決めたい"]],
+  ["CN","かなり疲れている時、気持ちを戻すために最初に欲しくなるのは？",["誰にも合わせなくていい一人の時間", "安心できる相手と気楽に過ごす時間"]],
+  ["CN","考えがまとまらず頭がいっぱいになった時、整理しやすいのは？",["一人で考えたり書き出したりする時", "誰かに話しながら考える時"]],
+  ["CN","予定や刺激が多かった日の終わり、落ち着きやすいのは？",["一人になって自分のペースに戻ること", "気を使わない相手と過ごすこと"]],
+  ["CN","予想外の出来事で気持ちが乱れた時、立て直しやすいのは？",["少し一人になって状況を整理すること", "信頼できる相手とやり取りすること"]],
+  ["CN","人と長く過ごして少し消耗した後は？",["一人になる時間があると回復しやすい", "気の合う人と過ごし続けても回復できる"]],
+  ["CN","落ち込んだ時、気分が戻り始めるきっかけになりやすいのは？",["自分の中で気持ちを整理できた時", "誰かとのやり取りで気持ちがほぐれた時"]],
+  ["CN","忙しさが続いて余裕がなくなった時、休みとして効きやすいのは？",["予定も会話も少ない静かな時間", "安心できる人と肩の力を抜いて過ごす時間"]],
+  ["CN","大きな判断を終えて緊張が解けた後、自然に戻りやすいのは？",["一人で余韻を整理している時", "誰かと話しながら気持ちをほどく時"]],
+  ["JR","自分の仕事や作品が良かったか判断する時、最後に頼りやすいのは？",["自分の中で納得できたか", "周囲からどう評価されたか"]],
+  ["JR","周囲から高く評価されても、自分では納得できない時は？",["自分の違和感を重く見る", "高く評価された事実を重く見る"]],
+  ["JR","誰にも見られない作業の出来を判断するなら？",["自分で決めた基準に届いたかを見る", "人に見せた時どう受け取られるかを想像する"]],
+  ["JR","服や持ち物を選ぶ時、最後の決め手になりやすいのは？",["自分自身がしっくりくるか", "周囲から好意的に見られそうか"]],
+  ["JR","自分では良いと思った案に反応がほとんどなかった時は？",["良いと思う理由が残っていれば評価を保ちやすい", "反応が弱いと自分の評価も下がりやすい"]],
+  ["JR","失敗した後、自分の出来を振り返る時に基準になりやすいのは？",["自分が目指していた水準との差", "周囲から返ってきた反応との差"]],
+  ["JR","目標を達成した時、満足感を強く左右しやすいのは？",["自分が納得するところまで到達した実感", "人に認められたという実感"]],
+  ["JR","他人から助言をもらった後、最終判断を決める時は？",["助言を踏まえても自分の基準で決める", "助言した人たちの反応を強く参考にして決める"]],
+  ["CL","情報が足りないまま考え続ける必要がある時は？",["仮でも一度結論を置くと考えやすい", "結論を置かず複数の可能性を残して考えられる"]],
+  ["CL","二つの説明がどちらも一理ある時は？",["今の時点でより妥当な方を選びたい", "両方を候補として持ったままにできる"]],
+  ["CL","結論の出ない話し合いが長く続くと？",["どこかで区切りとなる答えが欲しくなる", "答えが決まらなくてもそれほど気にならない"]],
+  ["CL","自分の考えが途中で何度も変わっている時は？",["いったん一本に整理すると落ち着く", "変わり続けている状態でも考え続けられる"]],
+  ["CL","人間関係の意味づけがはっきりしない時は？",["今どういう関係なのか言葉にしたくなる", "名前を付けないままでも付き合っていける"]],
+  ["CL","正解が一つに決まらない問いを考える時は？",["自分なりの答えを作るところまで進みたい", "答えを出さず考え続けることもできる"]],
+  ["CL","互いに矛盾する情報を見つけた時は？",["どちらを採用するか整理したくなる", "しばらく両方があり得る状態を保てる"]],
+  ["CL","判断材料が今後増えると分かっている時でも？",["現時点の仮結論を持っておきたい", "材料が揃うまでは結論なしでも構わない"]],
+  ["EX","自由時間に何か見るものを選ぶなら？",["以前から好きなジャンルを選びやすい", "普段触れないジャンルも試したくなる"]],
+  ["EX","知らない街を歩く時、惹かれやすいのは？",["行き先が分かっている道や場所", "予定になかった道や場所"]],
+  ["EX","日常が安定してうまく回っている時は？",["そのリズムを保てることに心地よさを感じる", "新しい刺激を少し入れたくなる"]],
+  ["EX","今すぐ役立つか分からない分野を見つけた時は？",["必要になるまでは深く触れないことが多い", "役立つか分からなくても知りたくなる"]],
+  ["EX","初めての店と気に入っている店が並んでいたら？",["気に入っている店を選ぶことが多い", "初めての店にも惹かれやすい"]],
+  ["EX","新しい道具やサービスを知った時は？",["今のものに不満がなければあまり気にならない", "違いが何なのか触れて確かめたくなる"]],
+  ["EX","趣味で時間を使うなら？",["好きだと分かっていることを深めたい", "まだ知らないものにも触れてみたい"]],
+  ["EX","知らない考え方に出会った時は？",["自分に必要かどうかを先に考える", "まずどういう考えなのか知りたくなる"]],
+  ["TH","初めて見たものの良し悪しを判断する時、自然なのは？",["第一印象から方向を掴むこと", "理由を整理してから判断すること"]],
+  ["TH","難しい問題に出会った時、取りかかりやすいのは？",["まず感覚的に当たりをつけること", "要素を分けて構造を整理すること"]],
+  ["TH","説明を受けて『分かった』と感じやすいのは？",["全体像や要点が感覚的につかめた時", "理由や仕組みまでつながった時"]],
+  ["TH","選択肢が多い買い物では？",["ある程度見たところで感覚的に絞る", "比較軸を作って違いを整理する"]],
+  ["TH","自分の意見を人に説明する時は？",["まず結論や感覚を伝える", "なぜそう考えたか順序立てて伝える"]],
+  ["TH","問題が起きた時、頭の中で先に起こりやすいのは？",["使えそうな対処法が浮かぶ", "原因や仕組みを整理したくなる"]],
+  ["TH","一度結論が出た後でも？",["実用上十分ならそこで考えるのを止めやすい", "別の可能性や反例まで考えたくなる"]],
+  ["RA","親しい相手と意見が違う時、優先しやすいのは？",["違いが残っても自分の考えを正確に伝えること", "自分の表現を調整して関係を保つこと"]],
+  ["RA","頼み事を断るか迷った時、決め手になりやすいのは？",["自分に無理がないか", "相手がどれだけ困るか"]],
+  ["RA","集団で自分だけ違う希望を持っている時は？",["違っていても自分の希望を伝える", "全体がまとまりやすい方へ合わせる"]],
+  ["RA","相手が不快に感じる可能性のある意見を伝える時は？",["必要なら内容を優先して伝える", "内容を弱めても関係への影響を減らす"]],
+  ["RA","親しい人の希望と自分の予定がぶつかった時は？",["まず自分の予定をどこまで守るか考える", "まず相手の希望にどこまで合わせられるか考える"]],
+  ["RA","一緒に何かを決める時、納得感を感じやすいのは？",["それぞれが本音を出せた時", "全体として気持ちよくまとまった時"]],
+  ["RA","関係を続けたい相手でも、自分には負担が大きい時は？",["距離や条件をはっきり調整する", "関係が崩れない範囲で自分側を調整する"]],
+  ["AC","良さそうな案を思いついた時、始め方として自然なのは？",["必要な条件を整理してから着手する", "小さく試してから必要な条件を考える"]],
+  ["AC","初めての作業を任された時は？",["手順を把握してから動き始める", "一度触ってみてから手順を整える"]],
+  ["AC","新しいアプリや道具を使う時は？",["説明や設定を確認してから使う", "まず操作してみながら覚える"]],
+  ["AC","予定外の問題が起きた直後は？",["状況を把握してから対処を選ぶ", "できる対処から始めながら状況を見る"]],
+  ["AC","思いついた企画を形にする時は？",["成立する見通しをある程度作ってから形にする", "粗くても形にしてから考える"]],
+  ["AC","選択肢に決め手がない時は？",["判断材料をもう少し集めてから決める", "今ある材料で一度決めて進む"]],
+  ["AC","新しい仕事の進め方を試す時は？",["事前に流れを組んでから実行する", "実行しながら流れを組み替える"]],
+  ["SF","場面によって自分の振る舞いがかなり変わることについて？",["できればどこでも共通する自分でいたい", "場面ごとに違う面が出るのは自然だと思う"]],
+  ["SF","昔と今で考え方が大きく変わっていたら？",["変わっていても自分の中の共通点を探したくなる", "変化したこと自体も今の自分の一部だと思う"]],
+  ["SF","『本当の自分はどれ？』と聞かれたら？",["自分の中心には比較的一貫したものがあると思う", "場面ごとの自分がどれも本当だと思う"]],
+  ["SF","違う集団にいる時の自分を比べると？",["違いより共通している部分の方が自分らしく感じる", "集団ごとに違う自分も自然な自分だと感じる"]],
+  ["SF","自分の性格を説明する時は？",["比較的一貫した特徴として説明しやすい", "状況によって違うので一言では説明しにくい"]],
+  ["SF","以前は大事だった価値観が変わった時は？",["変化の中にも自分なりの一貫した理由を見つけたい", "今の自分に合うなら以前と違っていても気にならない"]],
+  ["SF","人によって自分への印象がかなり違うと知ったら？",["共通して見えている自分がどこかにある気がする", "相手ごとに違う面が見えるのは自然だと思う"]],
 ];
-const NONE = "いずれも当てはまらない";
+const NONE = "どちらとも言えない";
 
 /* ---------- タイプコード表 (A,B,C の組み合わせ→意味を持たない記号) ---------- */
 const TYPES = {
-"0-0-0":{name:"黎明",sub:"クロノス",tagline:"すべての始まりを切り拓く者",color:"#E67E3C"},
-"0-0-1":{name:"予兆",sub:"シグナル",tagline:"未来の兆しをいち早く察知する者",color:"#2AA9C4"},
-"0-0-2":{name:"黄昏",sub:"トワイライト",tagline:"変化と移ろいを受け入れる者",color:"#A85A82"},
-"0-1-0":{name:"刻印",sub:"スタンプ",tagline:"確実に実績と歴史を刻む者",color:"#A6342A"},
-"0-1-1":{name:"静止",sub:"スティルネス",tagline:"揺らぎの中で静かに俯瞰する者",color:"#57728A"},
-"0-1-2":{name:"流転",sub:"スペクトラム",tagline:"柔軟に形を変え自由に生きる者",color:"#B23FA0"},
-"1-0-0":{name:"永遠",sub:"エタニティ",tagline:"変わらない信念と秩序を守る者",color:"#2E7D5B"},
-"1-0-1":{name:"時空",sub:"ディメンション",tagline:"独自の視点と世界観を持つ者",color:"#5B4B99"},
-"1-0-2":{name:"深夜",sub:"ミッドナイト",tagline:"静寂の中で深索する者",color:"#2E3F6E"},
-"1-1-0":{name:"白昼",sub:"ソレイユ",tagline:"圧倒的な存在感で輝く者",color:"#E3A730"},
-"1-1-1":{name:"残響",sub:"エコー",tagline:"過去の知恵や経験を語り継ぐ者",color:"#8B6A45"},
-"1-1-2":{name:"刹那",sub:"モーメント",tagline:"今この瞬間に全てを賭ける者",color:"#D6395F"}
+"0-0-0":{order:1,name:"黎明",en:"CHRONOS",sub:"クロノス",tagline:"すべての始まりを切り拓く者",color:"#E67E3C"},
+"0-0-1":{order:2,name:"予兆",en:"SIGNAL",sub:"シグナル",tagline:"未来の兆しをいち早く察知する者",color:"#2AA9C4"},
+"0-0-2":{order:3,name:"黄昏",en:"TWILIGHT",sub:"トワイライト",tagline:"変化と移ろいを受け入れる者",color:"#A85A82"},
+"0-1-0":{order:4,name:"刻印",en:"STAMP",sub:"スタンプ",tagline:"確実に実績と歴史を刻む者",color:"#A6342A"},
+"0-1-1":{order:5,name:"静止",en:"STILLNESS",sub:"スティルネス",tagline:"揺らぎの中で静かに俯瞰する者",color:"#57728A"},
+"0-1-2":{order:6,name:"流転",en:"SPECTRUM",sub:"スペクトラム",tagline:"柔軟に形を変え自由に生きる者",color:"#B23FA0"},
+"1-0-0":{order:7,name:"永遠",en:"ETERNITY",sub:"エタニティ",tagline:"変わらない信念と秩序を守る者",color:"#2E7D5B"},
+"1-0-1":{order:8,name:"時空",en:"DIMENSION",sub:"ディメンション",tagline:"独自の視点と世界観を持つ者",color:"#5B4B99"},
+"1-0-2":{order:9,name:"深夜",en:"MIDNIGHT",sub:"ミッドナイト",tagline:"静寂の中で深索する者",color:"#2E3F6E"},
+"1-1-0":{order:10,name:"白昼",en:"SOLEIL",sub:"ソレイユ",tagline:"圧倒的な存在感で輝く者",color:"#E3A730"},
+"1-1-1":{order:11,name:"残響",en:"ECHO",sub:"エコー",tagline:"過去の知恵や経験を語り継ぐ者",color:"#8B6A45"},
+"1-1-2":{order:12,name:"刹那",en:"MOMENT",sub:"モーメント",tagline:"今この瞬間に全てを賭ける者",color:"#D6395F"}
 };
+
+const TYPE_ASSETS = {
+  "黎明":"assets/01-dawn.webp","予兆":"assets/02-signal.webp","黄昏":"assets/03-twilight.webp","刻印":"assets/04-stamp.webp",
+  "静止":"assets/05-stillness.webp","流転":"assets/06-spectrum.webp","永遠":"assets/07-eternity.webp","時空":"assets/08-dimension.webp",
+  "深夜":"assets/09-midnight.webp","白昼":"assets/10-soleil.webp","残響":"assets/11-echo.webp","刹那":"assets/12-moment.webp"
+};
+const JP_ORDINAL=["一","二","三","四","五","六","七","八","九","十","十一","十二"];
+
+
+/* ---------- 12刻の8軸中心像 v0.1 ----------
+   12刻は固定分類ではなく、回答者の8軸プロファイルに最も近い象徴を選ぶ。
+   この中心像はフィードバックデータで将来更新する前提。
+------------------------------------------- */
+const ARCHETYPE_PROFILES = {
+  "黎明": {
+    "CN": 0.42,
+    "JR": 0.34,
+    "CL": 0.58,
+    "EX": 0.82,
+    "TH": 0.38,
+    "RA": 0.4,
+    "AC": 0.78,
+    "SF": 0.58
+  },
+  "予兆": {
+    "CN": 0.46,
+    "JR": 0.38,
+    "CL": 0.64,
+    "EX": 0.72,
+    "TH": 0.3,
+    "RA": 0.44,
+    "AC": 0.52,
+    "SF": 0.62
+  },
+  "黄昏": {
+    "CN": 0.4,
+    "JR": 0.44,
+    "CL": 0.76,
+    "EX": 0.58,
+    "TH": 0.7,
+    "RA": 0.48,
+    "AC": 0.32,
+    "SF": 0.76
+  },
+  "刻印": {
+    "CN": 0.36,
+    "JR": 0.28,
+    "CL": 0.24,
+    "EX": 0.28,
+    "TH": 0.68,
+    "RA": 0.3,
+    "AC": 0.34,
+    "SF": 0.24
+  },
+  "静止": {
+    "CN": 0.3,
+    "JR": 0.4,
+    "CL": 0.5,
+    "EX": 0.3,
+    "TH": 0.78,
+    "RA": 0.4,
+    "AC": 0.22,
+    "SF": 0.38
+  },
+  "流転": {
+    "CN": 0.48,
+    "JR": 0.5,
+    "CL": 0.78,
+    "EX": 0.82,
+    "TH": 0.48,
+    "RA": 0.54,
+    "AC": 0.66,
+    "SF": 0.84
+  },
+  "永遠": {
+    "CN": 0.58,
+    "JR": 0.26,
+    "CL": 0.26,
+    "EX": 0.24,
+    "TH": 0.62,
+    "RA": 0.46,
+    "AC": 0.38,
+    "SF": 0.2
+  },
+  "時空": {
+    "CN": 0.56,
+    "JR": 0.34,
+    "CL": 0.8,
+    "EX": 0.72,
+    "TH": 0.8,
+    "RA": 0.46,
+    "AC": 0.44,
+    "SF": 0.66
+  },
+  "深夜": {
+    "CN": 0.24,
+    "JR": 0.3,
+    "CL": 0.68,
+    "EX": 0.46,
+    "TH": 0.86,
+    "RA": 0.3,
+    "AC": 0.24,
+    "SF": 0.54
+  },
+  "白昼": {
+    "CN": 0.8,
+    "JR": 0.66,
+    "CL": 0.3,
+    "EX": 0.66,
+    "TH": 0.34,
+    "RA": 0.7,
+    "AC": 0.78,
+    "SF": 0.54
+  },
+  "残響": {
+    "CN": 0.72,
+    "JR": 0.58,
+    "CL": 0.54,
+    "EX": 0.38,
+    "TH": 0.72,
+    "RA": 0.78,
+    "AC": 0.34,
+    "SF": 0.36
+  },
+  "刹那": {
+    "CN": 0.64,
+    "JR": 0.54,
+    "CL": 0.62,
+    "EX": 0.86,
+    "TH": 0.24,
+    "RA": 0.54,
+    "AC": 0.9,
+    "SF": 0.78
+  }
+};
+
 
 /* ---------- バックエンド接続先(未設定なら送信をスキップしローカルのみで動作) ---------- */
 const API_BASE = "https://jiko-kasetsu-backend.aclasst529.workers.dev";
@@ -208,15 +331,21 @@ async function postJSON(path, body){
 }
 
 /* ---------- 状態管理 ---------- */
-const KEY = "jikokasetsu_v1";
+const KEY = "jikokasetsu_v25";
 function loadState(){
   try{ const s = JSON.parse(localStorage.getItem(KEY)); if(s) return s; }catch(e){}
   const order = [...Array(Q.length).keys()];
   for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]];}
-  return {order, answers:{}, pos:0};
+  return {order, answers:{}, pos:0, started_at:Date.now(), question_started_at:Date.now(), response_times:{}};
 }
 function saveState(s){ try{ localStorage.setItem(KEY, JSON.stringify(s)); }catch(e){} }
-let state = loadState();
+function ensureTelemetryState(s){
+  if(!s.started_at) s.started_at = Date.now();
+  if(!s.question_started_at) s.question_started_at = Date.now();
+  if(!s.response_times) s.response_times = {};
+  return s;
+}
+let state = ensureTelemetryState(loadState());
 
 function render(){
   const app = document.getElementById('app');
@@ -234,27 +363,38 @@ function render(){
 
 function renderSessionGate(app){
   const session = Math.floor(state.pos/10)+1;
-  app.innerHTML = `
-    <div class="hero">
-      <span class="wm">仮</span>
-      <svg class="hero-art" viewBox="0 0 200 200" aria-hidden="true">
-        <circle cx="100" cy="100" r="80" fill="none" stroke="var(--accent)" stroke-width="9" stroke-linecap="round"
-          stroke-dasharray="440 500" transform="rotate(-95 100 100)" opacity=".16" filter="url(#rough)"/>
-      </svg>
-      <div class="titlerow"><span class="stamp">自</span><h1>自己仮説</h1></div>
-      <div class="brushline"></div>
-      <p class="lede">言語化されていなかった自分の傾向に、状況判断を通じて近づく仮説ツール。</p>
-    </div>
-    <div class="divider"><svg viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true"><path d="M0 6 C 40 2, 80 9, 130 5 S 230 3, 300 6" filter="url(#rough)" style="fill:none;stroke:var(--accent);stroke-width:2.2;stroke-linecap:round;opacity:.55"/></svg></div>
-    <div class="pillrow"><span class="pill">全60問</span><span class="pill">10問 × 6セッション</span><span class="pill">結果は自分だけ閲覧可</span></div>
-    ${state.pos===0 ? '<p class="foot" style="margin-bottom:16px;"><a href="#" onclick="testConnection(event)" style="color:var(--accent);">接続テストを送信する(動作確認用)</a> <span id="testresult"></span></p>' : ''}
-    <div class="card">
-      <div class="qhead">セッション ${session} / 6</div>
-      <p class="qtext" style="margin-bottom:14px;">${state.pos===0 ? "直感で、深く考えすぎずに答えてください。途中で閉じても、続きから再開できます。" : "続きから再開します。"}</p>
-      <button class="btn" onclick="startSession()">この10問を始める</button>
-    </div>
-    <p class="foot">これは検証段階の仮説的な診断です。精度は今後の回答フィードバックによって更新されていく予定で、断定的な結果ではありません。</p>
-  `;
+  if(state.pos===0){
+    const orderedTypes = Object.values(TYPES).sort((a,b)=>a.order-b.order);
+    app.innerHTML = `
+      <header class="topbar">
+        <div class="brand"><div class="brandmark"></div><div><div class="brandtitle">自己仮説</div><div class="brandsub">SELF HYPOTHESIS</div></div></div>
+        <nav class="nav"><a href="#about">12の刻とは</a><a href="#koku">12の刻</a><a href="#about">診断について</a></nav>
+        <button class="btn small" onclick="startSession()">診断を始める</button>
+      </header>
+      <section class="hero">
+        <div class="hero-inner">
+          <div class="eyebrow">まだ知らない、もうひとりの自分に出会う。</div>
+          <h1>自己仮説</h1>
+          <div class="hero-en">SELF HYPOTHESIS</div>
+          <p class="hero-copy">12の刻から、<br>自分という仮説を読み解く。</p>
+          <p class="hero-note">あなたを12種類に決めつける診断ではありません。60の問いから8つの内部傾向を読み取り、その輪郭に最も近い「刻」をひとつの象徴として示します。</p>
+          <div class="actions"><button class="btn" onclick="startSession()">診断を始める →</button><button class="btn ghost" onclick="document.getElementById('koku').scrollIntoView()">12の刻を見る</button></div>
+        </div>
+      </section>
+      <section class="section" id="koku">
+        <div class="section-head"><div><div class="section-kicker">TWELVE KOKU</div><h2 class="serif">12の刻</h2></div><div class="section-desc">それぞれが、ひとつの世界の見方。刻は性格を固定する箱ではなく、現在のあなたの輪郭に最も近い象徴です。</div></div>
+        <div class="koku-grid">
+          ${orderedTypes.map(t=>`<div class="koku-card" title="第${JP_ORDINAL[t.order-1]}刻 ${t.name}"><img src="${TYPE_ASSETS[t.name]}" alt="第${JP_ORDINAL[t.order-1]}刻 ${t.name}"><div class="koku-meta"><div class="koku-num">第${JP_ORDINAL[t.order-1]}刻</div><div class="koku-name">${t.name}</div><div class="koku-en">${t.en}</div></div></div>`).join('')}
+        </div>
+      </section>
+      <section class="section" id="about">
+        <div class="section-head"><div><div class="section-kicker">ABOUT</div><h2 class="serif">分類ではなく、輪郭を見る。</h2></div></div>
+        <div class="info-row"><div class="info-card"><h3>8つの内部傾向</h3><p>接続、判断基準、確定性、探索性、思考様式、対人自律、行動速度、自己可変性。結果では数値を見せず、その強弱と組み合わせからあなた向けの説明を組み立てます。</p></div><div class="info-card"><h3>同じ刻でも、同じ人ではない</h3><p>第八刻「時空」同士でも、内部傾向や2番目に近い刻は異なります。対人関係や説明文も同じになるとは限りません。</p></div></div>
+      </section>`;
+    return;
+  }
+  app.innerHTML = `<header class="topbar"><div class="brand"><div class="brandmark"></div><div><div class="brandtitle">自己仮説</div><div class="brandsub">SELF HYPOTHESIS</div></div></div></header>
+  <main class="session"><div class="section-kicker">ANALYSIS PHASE ${String(session).padStart(2,'0')} / 06</div><h2 class="session-title">ここから次の10問へ。</h2><p class="session-copy">深く考えすぎず、その場の自分により近い方を選んでください。途中で閉じても続きから再開できます。</p><div class="sessionbox"><button class="btn" onclick="startSession()">この10問を始める →</button></div></main>`;
 }
 async function testConnection(e){
   e.preventDefault();
@@ -281,177 +421,481 @@ function renderQuestionForce(){ renderQuestion(document.getElementById('app')); 
 function renderQuestion(app){
   const idx = state.order[state.pos];
   const [axis, text, opts] = Q[idx];
-  const options = opts ? opts.slice() : [];
+  const options = opts ? opts.map((label,i)=>({label,value:i})) : [];
+  if(Math.random() < 0.5) options.reverse();
   const total = Q.length;
-  app.innerHTML = `
-    <div class="bar"><i style="width:${(state.pos/total*100).toFixed(1)}%"></i></div>
-    <div class="seal">問 ${state.pos+1} / ${total}</div>
-    <div class="card qcard">
-      <p class="qtext">${text}</p>
-      <div id="opts"></div>
-    </div>
-  `;
+  app.innerHTML = `<header class="topbar"><div class="brand"><div class="brandmark"></div><div><div class="brandtitle">自己仮説</div><div class="brandsub">SELF HYPOTHESIS</div></div></div><div class="qhead">ANALYSIS IN PROGRESS</div></header>
+    <main class="question-shell">
+      <div class="progress-head"><span>QUESTION ${String(state.pos+1).padStart(2,'0')} / ${total}</span><span>${Math.round(state.pos/total*100)}%</span></div>
+      <div class="bar"><i style="width:${(state.pos/total*100).toFixed(1)}%"></i></div>
+      <div class="seal">${PARAMS[axis]?.name || 'QUESTION'}</div>
+      <div class="qcard"><p class="qtext">${text}</p><div id="opts"></div></div>
+      <p class="foot">どちらにも当てはまらない場合は「どちらとも言えない」を選べます。</p>
+    </main>`;
   const optsEl = app.querySelector('#opts');
-  const kanjiNum = ["一","二","三"];
-  options.forEach((label, i)=>{
-    const b = document.createElement('button');
-    b.className = 'opt';
-    b.innerHTML = `<span class="optnum">${kanjiNum[i]||i+1}</span><span>${label}</span>`;
-    b.onclick = ()=> answer(idx, axis, i);
-    optsEl.appendChild(b);
-  });
-  const noneBtn = document.createElement('button');
-  noneBtn.className = 'opt none'; noneBtn.textContent = NONE;
-  noneBtn.onclick = ()=> answer(idx, axis, null);
-  optsEl.appendChild(noneBtn);
+  const marks = ["A","B"];
+  options.forEach((opt,i)=>{const b=document.createElement('button');b.className='opt';b.innerHTML=`<span class="optnum">${marks[i]||i+1}</span><span>${opt.label}</span>`;b.onclick=()=>answer(idx,axis,opt.value);optsEl.appendChild(b);});
+  const noneBtn=document.createElement('button');noneBtn.className='opt none';noneBtn.textContent=NONE;noneBtn.onclick=()=>answer(idx,axis,null);optsEl.appendChild(noneBtn);
 }
 
 function answer(idx, axis, value){
+  const now = Date.now();
+  state.response_times[idx] = Math.max(0, now - (state.question_started_at || now));
   state.answers[idx] = {axis, value};
   state.pos += 1;
+  state.question_started_at = Date.now();
   saveState(state);
   render();
 }
 
 function computeScores(){
-  const sums = {A:[0,0], B:[0,0], C:[0,0,0], D:[0,0]};
+  const sums = {};
+  Object.keys(PARAMS).forEach(k => sums[k] = [0,0]);
   Q.forEach((q, idx)=>{
     const a = state.answers[idx];
-    if(!a || a.value===null) return;
-    if(a.axis==="C") sums.C[a.value]++;
-    else sums[a.axis][a.value]++;
+    if(!a || a.value===null || !sums[a.axis]) return;
+    sums[a.axis][a.value]++;
   });
   return sums;
 }
 
-const AXIS_TEXT = {
-  A:{
-    0:["一人の時間の方が、多少は回復につながりやすいタイプです。",
-       "一人の時間を確保できないと、他のことでは埋め合わせが効きにくい傾向があります。予定を詰め込んだ週の後半は、先に一人の時間を空けておくと消耗を防ぎやすくなります。",
-       "一人の時間がないと、他のどんな手段を使っても消耗が抜けにくいタイプです。予定を詰め込んだ週の後半は、意識的に一人の時間を確保する必要があります。"],
-    1:["一人でいるより、誰かと過ごす方が多少は回復につながりやすいタイプです。",
-       "疲れている時ほど、あえて誰かと過ごす方が回復に向かいやすい傾向があります。一人にこもり続けると、かえって消耗が長引くことがあります。",
-       "一人にこもるより、信頼できる相手と過ごす方が明らかに早く回復するタイプです。ただし相手を選ばずに人と会うと、逆に消耗が長引くこともあります。"]
+function ratioOf(s, axis){
+  const v = s[axis] || [0,0];
+  const total = v[0] + v[1];
+  return total ? v[1] / total : 0.5;
+}
+
+function strengthWord(r){
+  const d = Math.abs(r - 0.5);
+  if(d < 0.08) return "中間";
+  if(d < 0.18) return "やや";
+  if(d < 0.30) return "明瞭";
+  return "かなり明瞭";
+}
+
+const PARAM_TEXT = {
+  CN:[
+    "人とのやり取りが嫌いというより、消耗した時にはまず一人の時間で自分のペースを取り戻しやすい傾向があります。",
+    "疲れている時ほど、信頼できる相手との会話や共有によって気持ちが整理されやすい傾向があります。"
+  ],
+  JR:[
+    "周囲の反応を参考にしながらも、最後は自分の中で納得できるかどうかが判断の土台になりやすいようです。",
+    "自分だけで判断を完結するより、周囲からどう受け取られたかを手掛かりに判断を調整しやすいようです。"
+  ],
+  CL:[
+    "情報が不完全でも一度仮の答えを置くことで、状況を整理しやすい傾向があります。",
+    "すぐに一つへ決め切らず、複数の可能性を残したまま考え続けることに比較的抵抗が少ないようです。"
+  ],
+  EX:[
+    "未知そのものを求めるより、見通しや再現性のある状態から力を出しやすい傾向があります。",
+    "慣れた方法だけに留まらず、未知のものや変化に触れることで関心や行動力が上がりやすい傾向があります。"
+  ],
+  TH:[
+    "情報を細かく分解する前に、全体の感覚や第一印象から方向を掴みやすいようです。",
+    "結論だけでなく理由や構造まで理解しようとし、考える時間そのものを比較的惜しまない傾向があります。"
+  ],
+  RA:[
+    "人間関係を大切にしつつも、必要な場面では自分の希望や境界線を保とうとする傾向があります。",
+    "自分の希望だけでなく、相手との関係や場の空気が保たれることを判断に強く含める傾向があります。"
+  ],
+  AC:[
+    "動く前に条件やリスクを確認し、納得できる見通しを作ってから着手しやすい傾向があります。",
+    "完全に見通しが立つのを待つより、まず小さく動いて得られた情報から調整しやすい傾向があります。"
+  ],
+  SF:[
+    "場面が変わっても、自分の中にある一貫した軸や『自分らしさ』を保とうとする傾向があります。",
+    "相手や状況によって異なる面が出ることを不自然と考えず、変化も自分の一部として受け入れやすいようです。"
+  ]
+};
+
+/* ---------- 結果文生成 v0.2 ----------
+   固定タイプ文ではなく、8軸の連続値・突出度・軸間関係から説明を組み立てる。
+   表示する刻は象徴ラベル、文章の中身は個人プロファイルを優先する。
+------------------------------------- */
+
+const AXIS_DETAIL = {
+  CN:{
+    low:{
+      core:"消耗した時は、他人との接触を増やすより、一人で自分のペースを取り戻す方が整いやすいようです。",
+      strong:"人と関わること自体が苦手というより、回復には『誰にも合わせなくていい時間』がかなり重要です。",
+      stress:"余裕がない時に人との予定が続くと、気づかないうちに消耗を重ねやすい傾向があります。"
+    },
+    high:{
+      core:"気持ちが乱れた時は、一人で抱えるより、信頼できる相手とのやり取りを通して整いやすいようです。",
+      strong:"安心できる相手との会話や共有が、かなり強い回復手段になっています。",
+      stress:"孤立した状態が長く続くと、考えが内側で回り続けてしまうことがあります。"
+    }
   },
-  B:{
-    0:["評価されない状況でも、多少は自分の納得感だけで動き続けられます。",
-       "自分の中で納得できていれば、評価がなくても動き続けられる傾向があります。ただ、周囲からのフィードバックが長く途絶えると、方向性を見失いやすい面もあります。",
-       "他人からの評価がほとんどなくても、自分の納得感だけで前に進み続けられるタイプです。その分、自分の物差しがずれていても気づきにくいという弱点も抱えています。"],
-    1:["自分の考えより先に、周囲の見方が多少気になりやすい傾向があります。",
-       "自分がどう思うかより先に、周囲からどう見られているかが判断の軸になりやすい傾向があります。信頼できる相手から率直な評価を意識的に取りに行くと、安定しやすくなります。",
-       "周囲からの評価が判断のほとんどを占めるタイプです。信頼できる相手から率直な評価を意識的に取りに行かないと、方向を見失いやすくなります。"]
+  JR:{
+    low:{
+      core:"周囲の評価は参考にしても、最終的には自分が納得できるかどうかを判断の土台にしやすい傾向があります。",
+      strong:"外から褒められても、自分の基準を満たしていなければ簡単には納得しにくいタイプです。",
+      stress:"自分の基準が強い分、他人から見れば十分でも自分だけが納得できず、必要以上に修正を続けることがあります。"
+    },
+    high:{
+      core:"自分だけで評価を完結するより、周囲からどう受け取られたかを判断材料として強く取り込みやすい傾向があります。",
+      strong:"反応や評価が、そのまま自分の出来を測る重要な手掛かりになりやすいようです。",
+      stress:"反応が得られない状態では、自分の判断に確信を持ちにくくなることがあります。"
+    }
   },
-  C:{
-    0:["結論が出ない状態が続くと、多少は居心地の悪さを感じるタイプです。",
-       "結論が出ないまま話が続くと強い居心地の悪さを感じるタイプです。早めに仮の結論を置いてから動く方が、あなたには合っています。"],
-    1:["はっきりしない状態のままでも、特に支障なく前に進められる傾向があります。",
-       "白黒つけないまま長く保留し続けても、支障を感じないタイプです。むしろ無理に結論を急かされる方が、ペースを乱されます。"],
-    2:["矛盾や未確定な状態を、多少面白がれる傾向があります。",
-       "矛盾や未確定な状態そのものを積極的に面白がれるタイプです。ただし周囲は早く結論を求めていることも多く、相手のペースに合わせる意識が必要になる場面もあります。"]
+  CL:{
+    low:{
+      core:"情報が十分でなくても、一度仮の答えを置くことで状況を整理しやすい傾向があります。",
+      strong:"曖昧な状態が長く続くより、『今はこう考える』という暫定結論がある方が動きやすいようです。",
+      stress:"結論が出ない状況が続くと、まだ待てる場面でも早めに答えを固定したくなることがあります。"
+    },
+    high:{
+      core:"一つの答えに急いで閉じず、複数の可能性を残したまま考え続けることに比較的抵抗がありません。",
+      strong:"矛盾する情報や未確定な状態でも、すぐに片方を捨てずに保持できる傾向があります。",
+      stress:"選択肢を残せる強さがある一方、決める必要がある場面でも保留を長く続けることがあります。"
+    }
+  },
+  EX:{
+    low:{
+      core:"新しさそのものを求めるより、分かっているものを深めたり、安定した環境を活かす方に価値を感じやすいようです。",
+      strong:"慣れた方法や信頼できるものを土台にすることで、力を発揮しやすい傾向があります。",
+      stress:"変化が重なると、内容そのものより『見通しがなくなること』に負荷を感じやすいようです。"
+    },
+    high:{
+      core:"未知のものや新しい考え方に触れることで、興味や行動力が上がりやすい傾向があります。",
+      strong:"役に立つか分からない段階でも、『知らないから見てみたい』という探索欲がかなり強めです。",
+      stress:"刺激が少ない状態が続くと、必要以上に新しいものを求めて方向を広げすぎることがあります。"
+    }
+  },
+  TH:{
+    low:{
+      core:"細かく分解する前に、全体の雰囲気や第一印象から方向を掴みやすい思考傾向があります。",
+      strong:"理由を順番に積み上げるより、『なんとなくこちら』という感覚から正解に近づくことが多いようです。",
+      stress:"感覚で素早く捉えられる反面、説明を求められた時に後から理由を言葉にする必要が出ることがあります。"
+    },
+    high:{
+      core:"結論だけでなく、なぜそうなるのかという構造や理由まで理解しようとする傾向があります。",
+      strong:"考える時間そのものを惜しまず、反例や別の可能性まで掘り下げやすいようです。",
+      stress:"十分に考えた後でも別の可能性を探し続け、動き出すまでに時間がかかることがあります。"
+    }
+  },
+  RA:{
+    low:{
+      core:"人間関係を大切にしながらも、必要な場面では自分の希望や境界線を保とうとする傾向があります。",
+      strong:"関係が少し揺れても、自分に必要な線引きは比較的はっきり示せるようです。",
+      stress:"自分の基準を守ることを優先しすぎると、相手には距離を置かれたように見えることがあります。"
+    },
+    high:{
+      core:"自分の希望だけでなく、相手との関係や場のまとまりも判断の重要な要素にしやすい傾向があります。",
+      strong:"相手との関係を保つためなら、自分側の表現や予定をかなり調整できるようです。",
+      stress:"関係を守ろうとする力が強い分、自分の負担を後回しにし続けることがあります。"
+    }
+  },
+  AC:{
+    low:{
+      core:"行動前に条件やリスクを把握し、ある程度の見通しを作ってから進む方が自然です。",
+      strong:"準備なしで走り出すより、失敗しそうな点を先に確認することで安定して力を出しやすいようです。",
+      stress:"準備を整えようとするほど、試してみれば分かることまで事前に確定させたくなることがあります。"
+    },
+    high:{
+      core:"完全に見通しが立つのを待つより、まず小さく動き、得られた情報から調整していく方が自然です。",
+      strong:"考えるだけで止まるより、実際に触ってみることで判断材料を増やす傾向がかなり強めです。",
+      stress:"動きながら直せる強さがある反面、最初に確認しておけば避けられた手戻りが起きることがあります。"
+    }
+  },
+  SF:{
+    low:{
+      core:"場面が変わっても、自分の中にある一貫した軸や『自分らしさ』を保とうとする傾向があります。",
+      strong:"環境や相手が変わっても、共通している自分の核を大切にしやすいようです。",
+      stress:"一貫性を守ろうとするほど、変化した自分を『以前と違う』と否定的に捉えることがあります。"
+    },
+    high:{
+      core:"相手や状況によって違う面が出ることを不自然と考えず、変化も自分の一部として受け入れやすい傾向があります。",
+      strong:"『どれが本当の自分か』より、場面ごとに出る複数の自分を自然に扱えるようです。",
+      stress:"適応力が高い一方、周囲に合わせ続けると自分自身が何を望んでいたか見えにくくなることがあります。"
+    }
   }
 };
-function tier2(ratio){ return ratio>=0.75 ? 2 : (ratio>=0.6 ? 1 : 0); }
-function tier3(ratio){ return ratio>=0.55 ? 1 : 0; }
+
+const INTERACTION_TEXT = [
+  {
+    axes:["TH","AC"],
+    when:(v)=>v.TH>0.62 && v.AC<0.38,
+    text:"考える深さと慎重さが同時に強いため、納得できる構造が見えるまで簡単には動かない傾向があります。反対に、一度筋道が通れば行動の迷いは小さくなりやすいでしょう。"
+  },
+  {
+    axes:["TH","AC"],
+    when:(v)=>v.TH>0.62 && v.AC>0.62,
+    text:"深く考える一方で、考えが完成するまで待つ必要はないと感じやすく、試しながら検証するスタイルになりやすいようです。"
+  },
+  {
+    axes:["TH","AC"],
+    when:(v)=>v.TH<0.38 && v.AC>0.62,
+    text:"直感で方向を掴み、そのまま動いて確かめる速度が出やすい組み合わせです。判断と行動の距離が短い反面、後から理由を整理することもありそうです。"
+  },
+  {
+    axes:["CL","EX"],
+    when:(v)=>v.CL>0.62 && v.EX>0.62,
+    text:"未知のものに惹かれながら、答えを一つに固定しないため、新しい可能性を広げ続けることに向いています。その分、終点を自分で決める工夫が必要になることもあります。"
+  },
+  {
+    axes:["CL","EX"],
+    when:(v)=>v.CL<0.38 && v.EX>0.62,
+    text:"新しいものには惹かれますが、触れた後は自分なりの結論を早めに作りたい傾向があります。探索はするものの、ずっと宙ぶらりんでいることは好みにくいようです。"
+  },
+  {
+    axes:["CN","RA"],
+    when:(v)=>v.CN>0.62 && v.RA<0.38,
+    text:"人とのつながりから回復しやすい一方、関係の中でも自分の境界線は比較的保てます。『人が必要』と『人に合わせる』が同じではないタイプです。"
+  },
+  {
+    axes:["CN","RA"],
+    when:(v)=>v.CN<0.38 && v.RA>0.62,
+    text:"一人の時間で整いやすいのに、対人場面では関係維持を優先しやすいため、人といる間は思った以上に気を使っている可能性があります。"
+  },
+  {
+    axes:["JR","RA"],
+    when:(v)=>v.JR<0.38 && v.RA>0.62,
+    text:"評価そのものは自分の基準で決めやすい一方、人との関係では相手への配慮を強く入れます。『自分で決めること』と『関係を守ること』を分けて扱いやすいようです。"
+  },
+  {
+    axes:["JR","SF"],
+    when:(v)=>v.JR>0.62 && v.SF>0.62,
+    text:"周囲の反応を取り込みやすく、状況に応じて自分の見せ方も変えられるため、環境適応は速い方です。ただし外部の反応が弱い時には、自分の輪郭が掴みにくくなることがあります。"
+  },
+  {
+    axes:["JR","SF"],
+    when:(v)=>v.JR<0.38 && v.SF>0.62,
+    text:"状況によって表れ方は変わっても、判断そのものは自分の内側に戻して決めやすい傾向があります。変化しながらも、判断の中心は比較的自分の中にあります。"
+  }
+];
+
+function profileValues(s){
+  return Object.fromEntries(Object.keys(PARAMS).map(k=>[k,ratioOf(s,k)]));
+}
+
+function axisDirectionText(axis, r){
+  const detail = AXIS_DETAIL[axis];
+  const side = r >= 0.5 ? detail.high : detail.low;
+  const strength = Math.abs(r-0.5);
+  return strength >= 0.30 ? `${side.core} ${side.strong}` : side.core;
+}
+
+function buildNarrative(s, derived){
+  const v = profileValues(s);
+  const ranked = Object.keys(PARAMS)
+    .map(axis=>({axis,r:v[axis],dev:Math.abs(v[axis]-0.5)}))
+    .sort((a,b)=>b.dev-a.dev);
+
+  const strongest = ranked.filter(x=>x.dev>=0.12).slice(0,4);
+  const core = strongest.length
+    ? strongest.map(x=>axisDirectionText(x.axis,x.r))
+    : ["どれか一方向に強く偏るというより、複数の傾向を状況に応じて使い分ける輪郭が出ています。"];
+
+  const interactions = INTERACTION_TEXT
+    .filter(x=>x.when(v))
+    .map(x=>x.text)
+    .slice(0,2);
+
+  // 強い軸の「行き過ぎた時」を1つだけ出す。弱点断定ではなく注意点として扱う。
+  const strongestAxis = ranked[0];
+  let caution = "";
+  if(strongestAxis && strongestAxis.dev >= 0.20){
+    const d = AXIS_DETAIL[strongestAxis.axis];
+    caution = (strongestAxis.r>=0.5 ? d.high : d.low).stress;
+  }
+
+  let boundary = "";
+  if(derived.margin < 0.025){
+    boundary = `今回もっとも近かった象徴は「${derived.type.name}」ですが、「${derived.secondType}」との距離も近く、一つの刻だけでは説明しきれない境界的な輪郭があります。`;
+  }else{
+    boundary = `今回の回答全体では「${derived.type.name}」が最も近い象徴でした。ただし、これはあなたを固定する分類ではなく、現在の輪郭を12の象徴の中で表したものです。`;
+  }
+
+  return {
+    opening: boundary,
+    core,
+    interactions,
+    caution
+  };
+}
+
+function renderNarrative(n){
+  const paragraphs = [
+    n.opening,
+    ...n.core,
+    ...n.interactions,
+    n.caution
+  ].filter(Boolean);
+
+  return paragraphs.map((p,i)=>{
+    if(i===0) return `<p style="font-size:15px;line-height:2;margin:0 0 18px;">${p}</p>`;
+    return `<p style="font-size:14px;color:var(--ink);line-height:2;margin:0 0 14px;">${p}</p>`;
+  }).join("");
+}
+
+
+function profileDistance(s, proto){
+  // 8軸すべてを同じ重みで扱う暫定距離。
+  // 実データが蓄積したら、各軸の識別力に応じて重みを学習・更新する。
+  const axes = Object.keys(PARAMS);
+  const mse = axes.reduce((acc, axis)=>{
+    const d = ratioOf(s, axis) - proto[axis];
+    return acc + d*d;
+  }, 0) / axes.length;
+  return Math.sqrt(mse);
+}
+
+function deriveType(s){
+  const ranked = Object.entries(TYPES).map(([legacyKey, t])=>{
+    const proto = ARCHETYPE_PROFILES[t.name];
+    return {
+      legacyKey,
+      type:t,
+      distance:profileDistance(s, proto)
+    };
+  }).sort((a,b)=>a.distance-b.distance);
+
+  const best = ranked[0];
+  const second = ranked[1];
+
+  // 表には出さない24前後の潜在サブパターン。
+  // 同じ刻の中で「熟考・慎重寄り(A) / 可変・実行寄り(B)」のどちらへ
+  // 相対的に傾くかを補助4軸から判定する。固定人格名は与えない。
+  const inward =
+    (ratioOf(s,"TH") + (1-ratioOf(s,"AC")) + (1-ratioOf(s,"RA")) + (1-ratioOf(s,"SF"))) / 4;
+  const hiddenVariant = inward >= 0.5 ? "A" : "B";
+
+  // 1位と2位が近いほど境界的。数値は内部保存のみ。
+  const margin = Math.max(0, second.distance - best.distance);
+
+  return {
+    type:best.type,
+    hiddenVariant,
+    nearestDistance:best.distance,
+    secondType:second.type.name,
+    secondDistance:second.distance,
+    margin,
+    ranked:ranked.slice(0,3).map(x=>({name:x.type.name, order:x.type.order, distance:x.distance}))
+  };
+}
+
+function describeProfile(s, derived){
+  return buildNarrative(s, derived);
+}
+
+function parameterBar(axis, r){
+  const p = PARAMS[axis];
+  const pos = Math.max(2, Math.min(98, r*100));
+  const tendency = r < 0.42 ? p.left : (r > 0.58 ? p.right : "両方の傾向");
+  return `<div class="axisrow">
+    <div class="axislabel"><span>${p.name}</span><span>${tendency}</span></div>
+    <div class="axislabel" style="font-size:10px;"><span>${p.left}</span><span>${p.right}</span></div>
+    <div class="axistrack"><div class="axisdot" style="left:calc(${pos}% - 7px)"></div></div>
+  </div>`;
+}
+
+
+function telemetrySummary(){
+  const times = state.response_times || {};
+  const vals = Object.values(times).filter(v=>Number.isFinite(v) && v>=0);
+  const skipped = Object.values(state.answers || {}).filter(a=>a && a.value===null).length;
+  return {
+    started_at: state.started_at || null,
+    finished_at: Date.now(),
+    total_duration_ms: state.started_at ? Date.now()-state.started_at : null,
+    answered_count: Object.keys(state.answers || {}).length,
+    skipped_count: skipped,
+    response_times_ms: times,
+    median_response_ms: vals.length ? vals.slice().sort((a,b)=>a-b)[Math.floor(vals.length/2)] : null
+  };
+}
+
+function serializeAnswers(){
+  return Q.map((q, idx)=>{
+    const a = state.answers[idx];
+    return {
+      question_id: idx + 1,
+      axis: q[0],
+      value: a ? a.value : null
+    };
+  });
+}
 
 function renderResult(app){
   const s = computeScores();
-  const aTotal = s.A[0]+s.A[1] || 1;
-  const bTotal = s.B[0]+s.B[1] || 1;
-  const cTotal = s.C[0]+s.C[1]+s.C[2] || 1;
-  const dTotal = s.D[0]+s.D[1] || 1;
-
-  const aBin = s.A[1]/aTotal >= 0.5 ? 1 : 0;
-  const bBin = s.B[1]/bTotal >= 0.5 ? 1 : 0;
-  const cVals=[s.C[0]/cTotal, s.C[1]/cTotal, s.C[2]/cTotal];
-  const cBin = cVals.indexOf(Math.max(...cVals));
-  const dBin = s.D[1]/dTotal >= 0.5 ? 1 : 0; // 非表示・相性計算専用
-
-  const aR = s.A[aBin]/aTotal, bR = s.B[bBin]/bTotal, cR = cVals[cBin];
-  const textA = AXIS_TEXT.A[aBin][tier2(aR)];
-  const textB = AXIS_TEXT.B[bBin][tier2(bR)];
-  const textC = AXIS_TEXT.C[cBin][tier3(cR)];
-
-  const t = TYPES[`${aBin}-${bBin}-${cBin}`];
-
+  const derived = deriveType(s);
+  const t = derived.type;
+  const profileText = describeProfile(s, derived);
   if(!state.submitted){
     state.submitted = true; saveState(state);
     postJSON("/submit", {
-      session_id: getSessionId(), type_code: t.name,
-      axis_bin: {A:aBin, B:bBin, C:cBin, D:dBin}, scores: s
+      version:"2.5", session_id:getSessionId(), type_code:t.name, type_order:t.order, item_set:"2026-09-v2.1",
+      hidden_variant:derived.hiddenVariant, axis_bin:null, archetype_model:"nearest-prototype-8d-v0.1", second_type:derived.secondType,
+      type_margin:derived.margin, nearest_types:derived.ranked, scores:s,
+      parameters:Object.fromEntries(Object.keys(PARAMS).map(k=>[k,ratioOf(s,k)])), answers:serializeAnswers(),
+      profile_signature:Object.fromEntries(Object.keys(PARAMS).map(k=>[k,ratioOf(s,k)])),
+      narrative_flags:INTERACTION_TEXT.filter(x=>x.when(profileValues(s))).map((x,i)=>i), telemetry:telemetrySummary()
     });
   }
-
   document.documentElement.style.setProperty('--accent', t.color);
+  document.documentElement.style.setProperty('--accent2', t.color);
+  document.documentElement.style.setProperty('--glow', t.color+'55');
+  app.innerHTML = `<header class="topbar"><div class="brand"><div class="brandmark"></div><div><div class="brandtitle">自己仮説</div><div class="brandsub">SELF HYPOTHESIS</div></div></div><div class="qhead">ANALYSIS RESULT</div></header>
+    <section class="result-hero"><div class="result-hero-bg" style="background-image:url('${TYPE_ASSETS[t.name]}')"></div><div class="result-content">
+      <div class="result-order">第${JP_ORDINAL[t.order-1]}刻</div><div class="result-name">${t.name}</div><div class="result-en">${t.en}</div>
+      <div class="result-tagline">${t.tagline}</div><p class="result-note">12刻はあなたを固定する分類ではなく、今回の回答全体に最も近い象徴です。</p>
+    </div></section>
+    <div class="result-grid"><div class="card"><div class="card-title">あなたの全体像</div>${renderNarrative(profileText)}<p style="font-size:12px;color:var(--sub);margin-top:18px;">同じ刻でも、内部の8つの傾向は人によって異なります。そのため説明や対人相性が同じになるとは限りません。</p></div>
+    <div class="card"><div class="card-title">傾向の輪郭</div>${Object.keys(PARAMS).map(k=>parameterBar(k,ratioOf(s,k))).join('')}</div></div>
+    <div class="card" id="fbcard" style="margin-top:14px"><div class="card-title">この結果は、実際の自分とどの程度近いですか？</div><p style="font-size:12px;color:var(--sub);margin-bottom:14px;">回答は質問・判定・説明文の改善に使われます。</p>
+      <div style="display:grid;grid-template-columns:1fr;gap:8px;" id="overallfb">${[[5,"かなり近い"],[4,"だいたい近い"],[3,"どちらとも言えない"],[2,"少し違う"],[1,"かなり違う"]].map(([v,l])=>`<button class="opt" style="margin:0;" onclick="setOverallFb(${v},this)">${l}</button>`).join('')}</div>
+      <div id="detailfb" class="hidden" style="margin-top:18px;"><p style="font-size:13px;margin-bottom:10px;">特にどう感じましたか？ <span style="color:var(--sub);font-size:11px;">任意・複数可</span></p><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">${[["core","自分の特徴の捉え方"],["relation","対人・距離感"],["decision","判断や考え方"],["action","行動の仕方"],["caution","注意点・弱点の説明"],["archetype","刻のイメージ"]].map(([k,l])=>`<button class="pill fbtag" type="button" data-key="${k}" onclick="toggleFbTag(this)">${l}</button>`).join('')}</div><textarea id="fbtext" maxlength="300" placeholder="違和感があった部分や、もっと知りたいことがあれば自由にどうぞ（任意）" style="width:100%;min-height:90px;background:transparent;color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:12px;font-family:inherit;resize:vertical;"></textarea><button class="btn" style="margin-top:12px;" onclick="submitDetailedFeedback()">フィードバックを送る</button></div><p id="fbthanks" class="hidden" style="font-size:12px;color:var(--sub);margin-top:12px;">記録しました。ありがとうございます。</p>
+    </div><button class="btn ghost" style="margin-top:14px;" onclick="restart()">もう一度受ける</button><p class="foot">この診断は仮説段階のツールです。断定的な性格判定ではありません。回答とフィードバックは質問・判定ロジックの精度改善に使われます。</p>`;
+}
+let feedbackDraft = {overall:null, tags:[]};
 
-  app.innerHTML = `
-    <div class="qhead">診断結果 &middot; 非公開</div>
-    <div class="card ringwrap" style="text-align:center;overflow:hidden;">
-      <svg class="ring" viewBox="0 0 200 200" aria-hidden="true">
-        <circle cx="100" cy="100" r="78" fill="none" stroke="${t.color}" stroke-width="7" stroke-linecap="round"
-          stroke-dasharray="430 490" transform="rotate(-100 100 100)" opacity=".2" filter="url(#rough)"/>
-      </svg>
-      <p style="color:${t.color};font-size:12px;letter-spacing:.12em;margin-bottom:6px;">${t.sub}</p>
-      <div style="display:inline-block;border:2px solid ${t.color};border-radius:2px;padding:14px 30px;">
-        <div class="type-code" style="color:${t.color};">${t.name}</div>
-      </div>
-      <p style="color:var(--ink);font-size:14px;margin-top:16px;">${t.tagline}</p>
-      <p style="color:var(--sub);font-size:12px;margin-top:6px;">この名前が示すのは大まかな傾向で、断定ではありません。</p>
-    </div>
-    <div class="card">
-      <p style="font-size:14px;margin-bottom:10px;">あなたの傾向(この結果はあなたのみが見ています)</p>
-      <p style="font-size:14px;color:var(--ink);line-height:1.9;">${textA} また、${textB} そして、${textC}</p>
-    </div>
-    <div class="card">
-      <p style="font-size:14px;margin-bottom:4px;">数値の内訳</p>
-      ${axisBar("エネルギーの回復", s.A[0]/aTotal, "一人で回復", "誰かといて回復")}
-      ${axisBar("納得の基準", s.B[0]/bTotal, "自分基準", "他者評価基準")}
-      ${axisBarC(cVals)}
-    </div>
-    <div class="card">
-      <p style="font-size:14px;">同じ記号の人でも、細かなスコアは人によって異なります。上の文章や相性の出方が人によって違って見えるのはそのためです。</p>
-    </div>
-    <div class="card" id="fbcard">
-      <p style="font-size:14px;margin-bottom:12px;">この結果、実際の自分と近いと感じますか?(この回答が今後の精度向上に使われます)</p>
-      ${["A","B","C"].map(ax=>`
-        <div class="axisrow">
-          <div class="axislabel"><span>${ax==="A"?"回復の傾向":ax==="B"?"納得の基準":"不確実性への向き合い方"}</span></div>
-          <div style="display:flex;gap:8px;">
-            <button class="opt" style="margin:0;padding:8px 12px;font-size:13px;" onclick="sendFb('${ax}',1,this)">近い</button>
-            <button class="opt" style="margin:0;padding:8px 12px;font-size:13px;" onclick="sendFb('${ax}',0,this)">ズレている</button>
-          </div>
-        </div>`).join('')}
-    </div>
-    <button class="btn ghost" onclick="restart()">もう一度受ける(データは上書きされます)</button>
-    <p class="foot">この診断は仮説段階のツールです。すべての人に当てはまるとは限らず、断定的な性格判定ではありません。回答は匿名化された上で集計に使われ、個人が特定される形で外部に共有されることはありません。今後、月次のフィードバックによって質問内容の精度を継続的に見直していく予定です。</p>
-  `;
+function setOverallFb(value, btn){
+  feedbackDraft.overall = value;
+  document.querySelectorAll('#overallfb .opt').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  document.getElementById('detailfb').classList.remove('hidden');
 }
 
-function axisBar(label, ratio, leftLabel, rightLabel){
-  const pct = (ratio*100).toFixed(0);
-  return `<div class="axisrow">
-    <div class="axislabel"><span>${leftLabel} ${100-pct}%</span><span>${pct}% ${rightLabel}</span></div>
-    <div class="axistrack"><div class="axisdot" style="left:calc(${100-pct}% - 7px)"></div></div>
-  </div>`;
-}
-function axisBarC(vals){
-  const labels=["白黒つけたい","保留できる","曖昧を楽しむ"];
-  return `<div class="axisrow">
-    <div class="axislabel"><span>不確実性への向き合い方</span></div>
-    <div style="display:flex;gap:4px;height:8px;margin-bottom:6px;">
-      ${vals.map(v=>`<div style="flex:${Math.max(v,0.04)};background:var(--accent);opacity:${0.4+v*0.6};border-radius:4px;"></div>`).join('')}
-    </div>
-    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--sub);">
-      ${labels.map((l,i)=>`<span>${l} ${(vals[i]*100).toFixed(0)}%</span>`).join('')}
-    </div>
-  </div>`;
+function toggleFbTag(btn){
+  const key = btn.dataset.key;
+  btn.classList.toggle('sel');
+  if(btn.classList.contains('sel')){
+    if(!feedbackDraft.tags.includes(key)) feedbackDraft.tags.push(key);
+  }else{
+    feedbackDraft.tags = feedbackDraft.tags.filter(x=>x!==key);
+  }
 }
 
-
-function sendFb(axis, accurate, btn){
-  postJSON("/feedback", {session_id: getSessionId(), axis, accurate});
-  const row = btn.closest('.axisrow');
-  row.style.opacity = 0.5;
-  row.insertAdjacentHTML('beforeend', '<p style="font-size:12px;color:var(--sub);margin-top:4px;">記録しました</p>');
+function submitDetailedFeedback(){
+  if(!feedbackDraft.overall) return;
+  const text = (document.getElementById('fbtext')?.value || "").trim();
+  const s = computeScores();
+  const derived = deriveType(s);
+  const narrative = buildNarrative(s, derived);
+  postJSON("/feedback", {
+    version:"2.4",
+    session_id:getSessionId(),
+    feedback_kind:"result_review",
+    overall:feedbackDraft.overall,
+    tags:feedbackDraft.tags,
+    free_text:text || null,
+    type_code:derived.type.name,
+    type_order:derived.type.order,
+    second_type:derived.secondType,
+    type_margin:derived.margin,
+    parameters:profileValues(s),
+    narrative_snapshot:{
+      opening:narrative.opening,
+      core:narrative.core,
+      interactions:narrative.interactions,
+      caution:narrative.caution
+    }
+  });
+  document.getElementById('detailfb').classList.add('hidden');
+  document.getElementById('overallfb').style.pointerEvents = 'none';
+  document.getElementById('overallfb').style.opacity = '.6';
+  document.getElementById('fbthanks').classList.remove('hidden');
 }
 
 function restart(){
